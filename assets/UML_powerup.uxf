@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>9</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>378</x>
+      <y>99</y>
+      <w>243</w>
+      <h>153</h>
+    </coordinates>
+    <panel_attributes>Game
+--
+- canvas: HTMLCanvasElement
+- scoringItems: ScoringItem[]
+- player: Player
+- score: number
+- ctx: CanvasRenderingContext2D
+--
+- draw()
+- move()
+- writeTextToCanvas(...)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>468</x>
+      <y>243</y>
+      <w>27</w>
+      <h>81</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>351</x>
+      <y>306</y>
+      <w>297</w>
+      <h>117</h>
+    </coordinates>
+    <panel_attributes>GameItem
+--
+- name: string
+- xPosition: number
+- yPosition: number
+- speed: number
+--
+
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>261</x>
+      <y>720</y>
+      <w>279</w>
+      <h>117</h>
+    </coordinates>
+    <panel_attributes>Rocket
+--
+- type: string
+--
++ move()
++ outOfCanvas(width: number, height: number)
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>513</x>
+      <y>486</y>
+      <w>315</w>
+      <h>144</h>
+    </coordinates>
+    <panel_attributes>Player
+--
+- radius: number
+- keyBoardListener: KeyboardListener
+--
++ draw(ctx: CanvasRenderingContext2D)
++ move()
++ collidesWithScoringItem(scoringItem: ScoringItem[])
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>540</x>
+      <y>414</y>
+      <w>99</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;90.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>351</x>
+      <y>621</y>
+      <w>63</w>
+      <h>117</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;50.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>0</x>
+      <y>720</y>
+      <w>243</w>
+      <h>63</h>
+    </coordinates>
+    <panel_attributes>PowerUp
+--
+ </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>126</x>
+      <y>621</y>
+      <w>153</w>
+      <h>117</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>150.0;10.0;10.0;110.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>189</x>
+      <y>486</y>
+      <w>279</w>
+      <h>144</h>
+    </coordinates>
+    <panel_attributes>ScoringItem
+--
+- points: number
+- image: HTMLImageElement
+--
++ outOfCanvas(width: number, height: number)
++ draw(ctx: CanvasRenderingContext2D)
++ move()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>333</x>
+      <y>414</y>
+      <w>108</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>100.0;10.0;10.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>0</x>
+      <y>630</y>
+      <w>99</w>
+      <h>45</h>
+    </coordinates>
+    <panel_attributes>Only contains 
+constructor
+bg=blue
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>27</x>
+      <y>666</y>
+      <w>27</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>lt=.</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
+  </element>
+</diagram>
