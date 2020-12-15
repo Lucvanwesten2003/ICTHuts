@@ -5,6 +5,7 @@ class Game {
     private score: number;
     private ctx: CanvasRenderingContext2D;
     private counter: number;
+    private keyBoard: KeyboardListener;
 
     public constructor(canvasId: HTMLCanvasElement) {
         // Construct all of the canvas
@@ -13,6 +14,7 @@ class Game {
         this.canvas.height = window.innerHeight;
         this.ctx = this.canvas.getContext("2d");
         this.rockets = [];
+        this.keyBoard = new KeyboardListener
 
         console.log(this.rockets);
 
@@ -41,6 +43,9 @@ class Game {
         this.move();
         this.player.playerCollidesWithRocket(this.rockets);
         this.player.move(this.canvas);
+        if (this.keyBoard.isKeyDown(KeyboardListener.KEY_F11)){
+            location.reload()
+        }
 
 
 

@@ -11,6 +11,9 @@ class Game {
             this.move();
             this.player.playerCollidesWithRocket(this.rockets);
             this.player.move(this.canvas);
+            if (this.keyBoard.isKeyDown(KeyboardListener.KEY_F11)) {
+                location.reload();
+            }
             requestAnimationFrame(this.loop);
         };
         this.canvas = canvasId;
@@ -18,6 +21,7 @@ class Game {
         this.canvas.height = window.innerHeight;
         this.ctx = this.canvas.getContext("2d");
         this.rockets = [];
+        this.keyBoard = new KeyboardListener;
         console.log(this.rockets);
         this.player = new Player('Me', this.canvas.width / 2, this.canvas.height / 2 - 80, 5, "./assets/mcboot.png");
         console.log(this.player);
@@ -105,6 +109,7 @@ KeyboardListener.KEY_UP = 38;
 KeyboardListener.KEY_RIGHT = 39;
 KeyboardListener.KEY_DOWN = 40;
 KeyboardListener.KEY_R = 82;
+KeyboardListener.KEY_F11 = 122;
 class Player extends GameItem {
     constructor(name, xPos, yPos, speed, image) {
         super(name, xPos, yPos, speed, image);
