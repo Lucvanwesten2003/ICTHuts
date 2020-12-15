@@ -19,7 +19,7 @@ class Game {
         this.ctx = this.canvas.getContext("2d");
         this.rockets = [];
         console.log(this.rockets);
-        this.player = new Player('Me', this.canvas.width / 2, this.canvas.height / 2 - 100, 5, "./assets/mcboot.png");
+        this.player = new Player('Me', this.canvas.width / 2, this.canvas.height / 2 - 80, 5, "./assets/mcboot.png");
         console.log(this.player);
         this.score = 0;
         this.loop();
@@ -30,11 +30,11 @@ class Game {
             let randomFish = ['alive', 'dead'];
             const randomElement = randomFish[Math.floor(Math.random() * randomFish.length)];
             if (randomElement === 'alive') {
-                this.rockets.push(new Rocket('aliveFish', Game.randomNumber(0, this.canvas.width - 200), Game.randomNumber(375, this.canvas.height - 50), Game.randomNumber(2, 5), "aliveFish", "./assets/aliveFish.png"));
+                this.rockets.push(new Rocket('aliveFish', Game.randomNumber(0, this.canvas.width - 200), Game.randomNumber(this.player.yPosition + 200, this.canvas.height - 50), Game.randomNumber(2, 5), "aliveFish", "./assets/aliveFish.png"));
                 console.log("alvieFish");
             }
             else {
-                this.rockets.push(new Rocket('deadFish', Game.randomNumber(0, this.canvas.width - 200), Game.randomNumber(375, this.canvas.height - 50), Game.randomNumber(2, 5), "deadFish", "./assets/deadFish.png"));
+                this.rockets.push(new Rocket('deadFish', Game.randomNumber(0, this.canvas.width - 200), Game.randomNumber(this.player.yPosition + 200, this.canvas.height - 50), Game.randomNumber(2, 5), "deadFish", "./assets/deadFish.png"));
             }
         }
     }

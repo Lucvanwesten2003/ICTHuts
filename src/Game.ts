@@ -18,7 +18,7 @@ class Game {
 
         this.player = new Player('Me', 
         this.canvas.width / 2, 
-        this.canvas.height / 2 - 100,
+        this.canvas.height / 2 - 80,
         5,
         "./assets/mcboot.png");
         console.log(this.player);
