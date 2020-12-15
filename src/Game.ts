@@ -54,13 +54,13 @@ class Game {
             if (randomElement === 'alive') {
                 this.rockets.push(new Rocket('aliveFish',
                     Game.randomNumber(0, this.canvas.width - 200),
-                    Game.randomNumber(this.canvas.height / 1.5, this.canvas.height - 50),
+                    Game.randomNumber(this.player.yPosition + 200, this.canvas.height - 50),
                     Game.randomNumber(2, 5), "aliveFish", "./assets/aliveFish.png"));
                 console.log("alvieFish");
             } else {
                 this.rockets.push(new Rocket('deadFish',
                     Game.randomNumber(0, this.canvas.width - 200),
-                    Game.randomNumber(this.canvas.height / 1.5, this.canvas.height - 50),
+                    Game.randomNumber(this.player.yPosition + 200, this.canvas.height - 50),
                     Game.randomNumber(2, 5), "deadFish", "./assets/deadFish.png"));
             }
         }
