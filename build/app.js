@@ -9,6 +9,8 @@ class Game {
             }
             this.draw();
             this.move();
+            this.drawHengel(this.ctx);
+            this.hengel.move(this.canvas);
             this.player.playerCollidesWithRocket(this.rockets);
             this.player.move(this.canvas);
             if (this.keyBoard.isKeyDown(KeyboardListener.KEY_F11)) {
@@ -23,8 +25,9 @@ class Game {
         this.rockets = [];
         this.keyBoard = new KeyboardListener;
         console.log(this.rockets);
-        this.player = new Player('Me', this.canvas.width / 2, this.canvas.height / 2 - 80, 5, "./assets/mcboot.png");
+        this.player = new Player('Me', this.canvas.width / 2.25, this.canvas.height / 2 - 80, 5, "./assets/mcboot.png");
         console.log(this.player);
+        this.hengel = new Hengel(this.canvas.height / 2 - 60, 3, "./assets/hook.png");
         this.score = 0;
         this.loop();
         this.counter = 0;
@@ -46,6 +49,15 @@ class Game {
         this.rockets.forEach((rocket) => {
             rocket.move();
         });
+    }
+    drawHengel(ctx) {
+        ctx.drawImage(this.hengel.image, this.player.xPosition + this.player.image.width - 50, this.hengel.yPosition);
+        ctx.strokeStyle = 'black';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(this.player.xPosition + this.player.image.width, this.player.yPosition + 25);
+        ctx.lineTo(this.player.xPosition + this.player.image.width - 10, this.hengel.yPosition + 10);
+        ctx.stroke();
     }
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -81,35 +93,15 @@ class GameItem {
     get yPosition() {
         return this._yPosition;
     }
+    get image() {
+        return this._image;
+    }
     loadNewImage(source) {
         const img = new Image();
         img.src = source;
         return img;
     }
 }
-class KeyboardListener {
-    constructor() {
-        this.keyDown = (ev) => {
-            this.keyCodeStates[ev.keyCode] = true;
-        };
-        this.keyUp = (ev) => {
-            this.keyCodeStates[ev.keyCode] = false;
-        };
-        this.keyCodeStates = new Array();
-        window.addEventListener("keydown", this.keyDown);
-        window.addEventListener("keyup", this.keyUp);
-    }
-    isKeyDown(keyCode) {
-        return this.keyCodeStates[keyCode] === true;
-    }
-}
-KeyboardListener.KEY_SPACE = 32;
-KeyboardListener.KEY_LEFT = 37;
-KeyboardListener.KEY_UP = 38;
-KeyboardListener.KEY_RIGHT = 39;
-KeyboardListener.KEY_DOWN = 40;
-KeyboardListener.KEY_R = 82;
-KeyboardListener.KEY_F11 = 122;
 class Player extends GameItem {
     constructor(name, xPos, yPos, speed, image) {
         super(name, xPos, yPos, speed, image);
@@ -157,6 +149,57 @@ class Player extends GameItem {
         ctx.drawImage(this._image, this._xPosition, this._yPosition);
     }
 }
+class Hengel {
+    constructor(yPos, speed, image) {
+        this.maxY = yPos;
+        this._yPosition = yPos;
+        this.speed = speed;
+        this.keyBoard = new KeyboardListener();
+        this._image = this.loadNewImage(image);
+    }
+    get yPosition() {
+        return this._yPosition;
+    }
+    get image() {
+        return this._image;
+    }
+    move(canvas) {
+        if (this.keyBoard.isKeyDown(KeyboardListener.KEY_UP) && this._yPosition > this.maxY) {
+            this._yPosition -= this.speed;
+        }
+        if (this.keyBoard.isKeyDown(KeyboardListener.KEY_DOWN) && this._yPosition < canvas.height - 50) {
+            this._yPosition += this.speed;
+        }
+    }
+    loadNewImage(source) {
+        const img = new Image();
+        img.src = source;
+        return img;
+    }
+}
+class KeyboardListener {
+    constructor() {
+        this.keyDown = (ev) => {
+            this.keyCodeStates[ev.keyCode] = true;
+        };
+        this.keyUp = (ev) => {
+            this.keyCodeStates[ev.keyCode] = false;
+        };
+        this.keyCodeStates = new Array();
+        window.addEventListener("keydown", this.keyDown);
+        window.addEventListener("keyup", this.keyUp);
+    }
+    isKeyDown(keyCode) {
+        return this.keyCodeStates[keyCode] === true;
+    }
+}
+KeyboardListener.KEY_SPACE = 32;
+KeyboardListener.KEY_LEFT = 37;
+KeyboardListener.KEY_UP = 38;
+KeyboardListener.KEY_RIGHT = 39;
+KeyboardListener.KEY_DOWN = 40;
+KeyboardListener.KEY_R = 82;
+KeyboardListener.KEY_F11 = 122;
 class Rocket extends GameItem {
     constructor(name, xPos, yPos, speed, type, image) {
         super(name, xPos, yPos, speed, image);

@@ -6,6 +6,7 @@ class Game {
     private ctx: CanvasRenderingContext2D;
     private counter: number;
     private keyBoard: KeyboardListener;
+    private hengel: Hengel;
 
     public constructor(canvasId: HTMLCanvasElement) {
         // Construct all of the canvas
@@ -19,11 +20,13 @@ class Game {
         console.log(this.rockets);
 
         this.player = new Player('Me', 
-        this.canvas.width / 2, 
+        this.canvas.width / 2.25, 
         this.canvas.height / 2 - 80,
         5,
         "./assets/mcboot.png");
         console.log(this.player);
+
+        this.hengel = new Hengel(this.canvas.height / 2 - 60, 3,"./assets/hook.png")
 
         this.score = 0;
         this.loop();
@@ -41,13 +44,13 @@ class Game {
         }
         this.draw();
         this.move();
+        this.drawHengel(this.ctx)
+        this.hengel.move(this.canvas)
         this.player.playerCollidesWithRocket(this.rockets);
         this.player.move(this.canvas);
         if (this.keyBoard.isKeyDown(KeyboardListener.KEY_F11)){
             location.reload()
         }
-
-
 
         requestAnimationFrame(this.loop);
     };
@@ -80,6 +83,21 @@ class Game {
             });
     }
 
+          /**
+     * 
+     * @param ctx 
+     * draws the rocket
+     */
+    public drawHengel(ctx: CanvasRenderingContext2D){
+        ctx.drawImage(this.hengel.image, this.player.xPosition + this.player.image.width - 50, this.hengel.yPosition)
+        ctx.strokeStyle = 'black';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(this.player.xPosition + this.player.image.width,this.player.yPosition + 25)
+        ctx.lineTo(this.player.xPosition + this.player.image.width - 10,this.hengel.yPosition + 10)
+        ctx.stroke()
+    }
+
 
     /**
      * Draws all the necessary elements to the canvas
@@ -87,6 +105,7 @@ class Game {
     public draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.player.draw(this.ctx);
+        
         // when there are elements in the rocket array
         if (this.rockets.length != 0) {
             // clear the canvas

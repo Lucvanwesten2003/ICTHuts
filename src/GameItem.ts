@@ -21,6 +21,10 @@ abstract class GameItem{
         return this._yPosition
     }
 
+    get image(): HTMLImageElement{
+        return this._image;
+    }
+
             /**
      * Loads an image so it doesn't flicker
      * @param {HTMLImageElement} source
