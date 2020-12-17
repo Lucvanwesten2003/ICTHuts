@@ -11,7 +11,7 @@ class Game {
             this.move();
             this.drawHengel(this.ctx);
             this.hengel.move(this.canvas);
-            this.player.playerCollidesWithRocket(this.rockets);
+            this.hengel.hengelCollidesWithFish(this.rockets, this.player.xPosition);
             this.player.move(this.canvas);
             if (this.keyBoard.isKeyDown(KeyboardListener.KEY_F11)) {
                 location.reload();
