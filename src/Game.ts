@@ -118,7 +118,7 @@ class Game {
             //write the current score
             this.writeTextToCanvas(
                 this.ctx,
-                `Score is: ${this.score}`,
+                `Score is: ${this.hengel._score}`,
                 40,
                 this.canvas.width / 2,
                 40

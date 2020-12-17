@@ -7,6 +7,7 @@ class Hengel{
     private _yPosition: number;
     private speed: number
     private _image: HTMLImageElement;
+    private score: number;
 
     public constructor(yPos: number, speed: number, image: string){
         this.maxY = yPos
@@ -14,6 +15,7 @@ class Hengel{
         this.speed = speed
         this.keyBoard = new KeyboardListener();
         this._image = this.loadNewImage(image)
+        this.score = 0;
     }
 
 
@@ -45,5 +47,23 @@ class Hengel{
         return img;
     }
 
+          /**
+     * Method to determine of the player is colliding with a rocket
+     */
+    public hengelCollidesWithFish(rockets: Rocket[], xPos: number) {
+        rockets.forEach((rocket) => {
+            if (rocket.xPosition < xPos + this._image.width &&
+                rocket.xPosition + rocket.image.width > xPos &&
+                rocket.yPosition < this._yPosition + this._image.height &&
+                rocket.yPosition + rocket.image.height > this._yPosition) {
+                console.log('pog')
+                this.score += 1;
+             }
+        });
+    }
+
+    get _score(): number {
+        return this.score;
+    }
   
 }

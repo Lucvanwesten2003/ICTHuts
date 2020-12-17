@@ -66,7 +66,7 @@ class Game {
             this.rockets.forEach((rocket) => {
                 rocket.draw(this.ctx);
             });
-            this.writeTextToCanvas(this.ctx, `Score is: ${this.score}`, 40, this.canvas.width / 2, 40);
+            this.writeTextToCanvas(this.ctx, `Score is: ${this.hengel._score}`, 40, this.canvas.width / 2, 40);
         }
     }
     writeTextToCanvas(ctx, text, fontSize = 20, xCoordinate, yCoordinate, alignment = "center", color = "red") {
@@ -156,6 +156,7 @@ class Hengel {
         this.speed = speed;
         this.keyBoard = new KeyboardListener();
         this._image = this.loadNewImage(image);
+        this.score = 0;
     }
     get yPosition() {
         return this._yPosition;
@@ -175,6 +176,20 @@ class Hengel {
         const img = new Image();
         img.src = source;
         return img;
+    }
+    hengelCollidesWithFish(rockets, xPos) {
+        rockets.forEach((rocket) => {
+            if (rocket.xPosition < xPos + this._image.width &&
+                rocket.xPosition + rocket.image.width > xPos &&
+                rocket.yPosition < this._yPosition + this._image.height &&
+                rocket.yPosition + rocket.image.height > this._yPosition) {
+                console.log('pog');
+                this.score += 1;
+            }
+        });
+    }
+    get _score() {
+        return this.score;
     }
 }
 class KeyboardListener {
