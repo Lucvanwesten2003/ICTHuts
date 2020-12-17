@@ -7,7 +7,6 @@ class Game {
     private counter: number;
     private keyBoard: KeyboardListener;
     private hengel: Hengel;
-    private rocket: Rocket;
 
     public constructor(canvasId: HTMLCanvasElement) {
         // Construct all of the canvas
@@ -20,14 +19,14 @@ class Game {
 
         console.log(this.rockets);
 
-        this.player = new Player('Me', 
-        this.canvas.width / 2.25, 
-        this.canvas.height / 2 - 80,
-        5,
-        "./assets/mcboot.png");
+        this.player = new Player('Me',
+            this.canvas.width / 2.25,
+            this.canvas.height / 2 - 80,
+            5,
+            "./assets/mcboot.png");
         console.log(this.player);
 
-        this.hengel = new Hengel(this.canvas.height / 2 - 60, 3,"./assets/hook.png")
+        this.hengel = new Hengel(this.canvas.height / 2 - 60, 3, "./assets/hook.png")
 
         this.score = 0;
         this.loop();
@@ -38,7 +37,7 @@ class Game {
      */
     public loop = () => {
         this.counter++;
-        if(this.counter === 60 ){
+        if (this.counter === 60) {
             this.makeFish()
             this.counter = 0;
         }
@@ -46,10 +45,9 @@ class Game {
         this.move();
         this.drawHengel(this.ctx)
         this.hengel.move(this.canvas)
-        this.player.hengelCollidesWithFish(this.rockets);
-        this.rocket.isCollidingWith();
+        this.hengel.hengelCollidesWithFish(this.rockets, this.player.xPosition);
         this.player.move(this.canvas);
-        if (this.keyBoard.isKeyDown(KeyboardListener.KEY_F11)){
+        if (this.keyBoard.isKeyDown(KeyboardListener.KEY_F11)) {
             location.reload()
         }
 
@@ -58,7 +56,7 @@ class Game {
 
     private makeFish() {
         for (let index = 0; index < 1; index++) {
-            let randomFish = ['alive','dead']
+            let randomFish = ['alive', 'dead']
             const randomElement = randomFish[Math.floor(Math.random() * randomFish.length)];
             if (randomElement === 'alive') {
                 this.rockets.push(new Rocket('aliveFish',
@@ -81,21 +79,21 @@ class Game {
     public move() {
         this.rockets.forEach((rocket) => {
             rocket.move()
-            });
+        });
     }
 
-          /**
-     * 
-     * @param ctx 
-     * draws the rocket
-     */
-    public drawHengel(ctx: CanvasRenderingContext2D){
+    /**
+* 
+* @param ctx 
+* draws the rocket
+*/
+    public drawHengel(ctx: CanvasRenderingContext2D) {
         ctx.drawImage(this.hengel.image, this.player.xPosition + this.player.image.width - 50, this.hengel.yPosition)
         ctx.strokeStyle = 'black';
         ctx.lineWidth = 2;
         ctx.beginPath();
-        ctx.moveTo(this.player.xPosition + this.player.image.width,this.player.yPosition + 25)
-        ctx.lineTo(this.player.xPosition + this.player.image.width - 10,this.hengel.yPosition + 10)
+        ctx.moveTo(this.player.xPosition + this.player.image.width, this.player.yPosition + 25)
+        ctx.lineTo(this.player.xPosition + this.player.image.width - 10, this.hengel.yPosition + 10)
         ctx.stroke()
     }
 
@@ -106,28 +104,28 @@ class Game {
     public draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.player.draw(this.ctx);
-        
+
         // when there are elements in the rocket array
         if (this.rockets.length != 0) {
             // clear the canvas
 
             // draw each rocket
             this.rockets.forEach((rocket) => {
-               rocket.draw(this.ctx)
+                rocket.draw(this.ctx)
             });
 
             //write the current score
             this.writeTextToCanvas(
                 this.ctx,
-                `Score is: ${this.score}`,
+                `Score is: ${this.hengel._score}`,
                 40,
                 this.canvas.width / 2,
                 40
             );
-            }
+        }
     }
 
-            
+
 
 
     /**
@@ -167,4 +165,4 @@ class Game {
         console.log(this.score);
         return this.score;
     }
- }
+}

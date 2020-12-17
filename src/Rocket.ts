@@ -1,7 +1,6 @@
 class Rocket extends GameItem {
     private type: string;
     private hengel: Hengel;
-    private player: Player;
 
     public constructor(name: string, xPos: number, yPos: number, speed: number, type: string, image: string) {
         super(name, xPos, yPos, speed, image)
@@ -70,15 +69,13 @@ class Rocket extends GameItem {
         ctx.drawImage(this._image, this._xPosition, this._yPosition)
     }
 
-    public isCollidingWith() {
-        if (
-            this.xPosition < this.player.xPos + this.hengel.image.width &&
-            this.xPosition + this.image.width > this.player.xPos &&
-            this.yPosition < this.player.yPos + this.hengel.image.height &&
-            this.yPosition + this.image.height > this.player.yPos
-        ) {
-            console.log("score plus 1");
-        }
-    }
+  //  public isCollidingWith(rockets: Rocket[]) {
+    //    if (
+      //      this.yPosition < this.player.yPos + this.hengel.image.height &&
+        //    this.yPosition + this.image.height > this.player.yPos
+        //) {
+         //   console.log("score plus 1");
+        //}
+    //}
 
 }

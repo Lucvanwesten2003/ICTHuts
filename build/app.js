@@ -10,8 +10,7 @@ class Game {
             this.move();
             this.drawHengel(this.ctx);
             this.hengel.move(this.canvas);
-            this.player.hengelCollidesWithFish(this.rockets);
-            this.rocket.isCollidingWith();
+            this.hengel.hengelCollidesWithFish(this.rockets, this.player.xPosition);
             this.player.move(this.canvas);
             if (this.keyBoard.isKeyDown(KeyboardListener.KEY_F11)) {
                 location.reload();
@@ -66,7 +65,7 @@ class Game {
             this.rockets.forEach((rocket) => {
                 rocket.draw(this.ctx);
             });
-            this.writeTextToCanvas(this.ctx, `Score is: ${this.score}`, 40, this.canvas.width / 2, 40);
+            this.writeTextToCanvas(this.ctx, `Score is: ${this.hengel._score}`, 40, this.canvas.width / 2, 40);
         }
     }
     writeTextToCanvas(ctx, text, fontSize = 20, xCoordinate, yCoordinate, alignment = "center", color = "red") {
@@ -124,36 +123,8 @@ class Player extends GameItem {
             this._xPosition += this.speed;
         }
     }
-    hengelCollidesWithFish(rockets) {
-        rockets.forEach((rocket) => {
-            let testX;
-            let testY;
-            if (this._xPosition < rocket.xPosition) {
-                testX = rocket.xPosition;
-            }
-            else if (this._xPosition > rocket.xPosition + rocket.image.width) {
-                testX = rocket.xPosition + rocket.image.width;
-            }
-            if (this._yPosition < rocket.yPosition) {
-                testY = rocket.yPosition;
-            }
-            else if (this._yPosition > rocket.yPosition + rocket.image.height) {
-                testY = rocket.yPosition + rocket.image.height;
-            }
-            const distX = this._xPosition - testX;
-            const distY = this._yPosition - testY;
-            const distance = Math.sqrt(distX * distX + distY * distY);
-            if (distance <= this.radius) {
-                console.log("Collides with Player");
-                this.radius += 3;
-            }
-        });
-    }
     draw(ctx) {
         ctx.drawImage(this._image, this._xPosition, this._yPosition);
-    }
-    get xPos() {
-        return this.xPos;
     }
     get yPos() {
         return this.yPos;
@@ -166,6 +137,7 @@ class Hengel {
         this.speed = speed;
         this.keyBoard = new KeyboardListener();
         this._image = this.loadNewImage(image);
+        this.score = 0;
     }
     get yPosition() {
         return this._yPosition;
@@ -185,6 +157,20 @@ class Hengel {
         const img = new Image();
         img.src = source;
         return img;
+    }
+    hengelCollidesWithFish(rockets, xPos) {
+        rockets.forEach((rocket) => {
+            if (rocket.xPosition < xPos + this._image.width &&
+                rocket.xPosition + rocket.image.width > xPos &&
+                rocket.yPosition < this._yPosition + this._image.height &&
+                rocket.yPosition + rocket.image.height > this._yPosition) {
+                console.log('pog');
+                this.score += 1;
+            }
+        });
+    }
+    get _score() {
+        return this.score;
     }
 }
 class KeyboardListener {
@@ -240,14 +226,6 @@ class Rocket extends GameItem {
     ;
     draw(ctx) {
         ctx.drawImage(this._image, this._xPosition, this._yPosition);
-    }
-    isCollidingWith() {
-        if (this.xPosition < this.player.xPos + this.hengel.image.width &&
-            this.xPosition + this.image.width > this.player.xPos &&
-            this.yPosition < this.player.yPos + this.hengel.image.height &&
-            this.yPosition + this.image.height > this.player.yPos) {
-            console.log("score plus 1");
-        }
     }
 }
 let init = () => {

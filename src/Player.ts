@@ -31,44 +31,10 @@ class Player extends GameItem{
         // }
     }
 
-        /**
-     * Method to determine of the player is colliding with a rocket
-     */
-    public hengelCollidesWithFish(rockets: Rocket[]) {
-        rockets.forEach((rocket) => {
-            let testX: number;
-            let testY: number;
-            if (this._xPosition < rocket.xPosition) {
-                testX = rocket.xPosition;
-            } else if (this._xPosition > rocket.xPosition + rocket.image.width) {
-                testX = rocket.xPosition + rocket.image.width;
-            }
-
-            if (this._yPosition < rocket.yPosition) {
-                testY = rocket.yPosition;
-            } else if (this._yPosition > rocket.yPosition + rocket.image.height) {
-                testY = rocket.yPosition + rocket.image.height;
-            }
-
-            const distX = this._xPosition - testX;
-            const distY = this._yPosition - testY;
-            const distance = Math.sqrt(distX * distX + distY * distY);
-
-            if (distance <= this.radius) {
-                console.log("Collides with Player");
-                this.radius += 3;
-            }
-        });
-    }
-
     
     public draw(ctx: CanvasRenderingContext2D){
         ctx.drawImage(this._image, this._xPosition, this._yPosition)
-    }
-
-    get xPos(): number {
-        return this.xPos;
-    }  
+    } 
 
     get yPos(): number {
         return this.yPos;
