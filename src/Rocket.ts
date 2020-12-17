@@ -1,8 +1,10 @@
-class Rocket extends GameItem{
+class Rocket extends GameItem {
     private type: string;
+    private hengel: Hengel;
+    private player: Player;
 
-    public constructor(name: string, xPos: number, yPos: number, speed: number, type: string, image: string){
-        super(name,xPos,yPos,speed,image)
+    public constructor(name: string, xPos: number, yPos: number, speed: number, type: string, image: string) {
+        super(name, xPos, yPos, speed, image)
         this.name = name
         this._xPosition = xPos
         this._yPosition = yPos
@@ -12,8 +14,8 @@ class Rocket extends GameItem{
         this.rocketFactory()
     }
 
-    
-    get image(): HTMLImageElement{
+
+    get image(): HTMLImageElement {
         return this._image
     }
 
@@ -25,19 +27,19 @@ class Rocket extends GameItem{
             this._xPosition = 0;
         } else {
             this._xPosition = 0;
-            
+
         }
     }
-    
+
 
 
     /**
      * moves the rocket
      */
-    public move(){
+    public move() {
         if (this.type == "aliveFish" || 'deadFish') {
             this._xPosition += this.speed;
-        } 
+        }
     };
 
 
@@ -64,8 +66,19 @@ class Rocket extends GameItem{
      * @param ctx 
      * draws the rocket
      */
-    public draw(ctx: CanvasRenderingContext2D){
+    public draw(ctx: CanvasRenderingContext2D) {
         ctx.drawImage(this._image, this._xPosition, this._yPosition)
+    }
+
+    public isCollidingWith() {
+        if (
+            this.xPosition < this.player.xPos + this.hengel.image.width &&
+            this.xPosition + this.image.width > this.player.xPos &&
+            this.yPosition < this.player.yPos + this.hengel.image.height &&
+            this.yPosition + this.image.height > this.player.yPos
+        ) {
+            console.log("score plus 1");
+        }
     }
 
 }

@@ -7,6 +7,7 @@ class Game {
     private counter: number;
     private keyBoard: KeyboardListener;
     private hengel: Hengel;
+    private rocket: Rocket;
 
     public constructor(canvasId: HTMLCanvasElement) {
         // Construct all of the canvas
@@ -36,7 +37,6 @@ class Game {
      * Method for the Game Loop
      */
     public loop = () => {
-        this.score++;
         this.counter++;
         if(this.counter === 60 ){
             this.makeFish()
@@ -46,7 +46,8 @@ class Game {
         this.move();
         this.drawHengel(this.ctx)
         this.hengel.move(this.canvas)
-        this.player.playerCollidesWithRocket(this.rockets);
+        this.player.hengelCollidesWithFish(this.rockets);
+        this.rocket.isCollidingWith();
         this.player.move(this.canvas);
         if (this.keyBoard.isKeyDown(KeyboardListener.KEY_F11)){
             location.reload()
@@ -160,5 +161,10 @@ class Game {
      */
     public static randomNumber(min: number, max: number): number {
         return Math.round(Math.random() * (max - min) + min);
+    }
+
+    public getScore(): number {
+        console.log(this.score);
+        return this.score;
     }
  }

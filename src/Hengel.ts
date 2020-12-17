@@ -44,6 +44,5 @@ class Hengel{
         img.src = source;
         return img;
     }
-
   
 }

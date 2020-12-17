@@ -34,7 +34,7 @@ class Player extends GameItem{
         /**
      * Method to determine of the player is colliding with a rocket
      */
-    public playerCollidesWithRocket(rockets: Rocket[]) {
+    public hengelCollidesWithFish(rockets: Rocket[]) {
         rockets.forEach((rocket) => {
             let testX: number;
             let testY: number;
@@ -65,7 +65,12 @@ class Player extends GameItem{
     public draw(ctx: CanvasRenderingContext2D){
         ctx.drawImage(this._image, this._xPosition, this._yPosition)
     }
-    
 
+    get xPos(): number {
+        return this.xPos;
+    }  
 
+    get yPos(): number {
+        return this.yPos;
+    }  
 }

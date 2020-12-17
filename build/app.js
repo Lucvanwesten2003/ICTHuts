@@ -1,7 +1,6 @@
 class Game {
     constructor(canvasId) {
         this.loop = () => {
-            this.score++;
             this.counter++;
             if (this.counter === 60) {
                 this.makeFish();
@@ -11,7 +10,8 @@ class Game {
             this.move();
             this.drawHengel(this.ctx);
             this.hengel.move(this.canvas);
-            this.player.playerCollidesWithRocket(this.rockets);
+            this.player.hengelCollidesWithFish(this.rockets);
+            this.rocket.isCollidingWith();
             this.player.move(this.canvas);
             if (this.keyBoard.isKeyDown(KeyboardListener.KEY_F11)) {
                 location.reload();
@@ -78,6 +78,10 @@ class Game {
     static randomNumber(min, max) {
         return Math.round(Math.random() * (max - min) + min);
     }
+    getScore() {
+        console.log(this.score);
+        return this.score;
+    }
 }
 class GameItem {
     constructor(name, xPos, yPos, speed, image) {
@@ -120,7 +124,7 @@ class Player extends GameItem {
             this._xPosition += this.speed;
         }
     }
-    playerCollidesWithRocket(rockets) {
+    hengelCollidesWithFish(rockets) {
         rockets.forEach((rocket) => {
             let testX;
             let testY;
@@ -147,6 +151,12 @@ class Player extends GameItem {
     }
     draw(ctx) {
         ctx.drawImage(this._image, this._xPosition, this._yPosition);
+    }
+    get xPos() {
+        return this.xPos;
+    }
+    get yPos() {
+        return this.yPos;
     }
 }
 class Hengel {
@@ -230,6 +240,14 @@ class Rocket extends GameItem {
     ;
     draw(ctx) {
         ctx.drawImage(this._image, this._xPosition, this._yPosition);
+    }
+    isCollidingWith() {
+        if (this.xPosition < this.player.xPos + this.hengel.image.width &&
+            this.xPosition + this.image.width > this.player.xPos &&
+            this.yPosition < this.player.yPos + this.hengel.image.height &&
+            this.yPosition + this.image.height > this.player.yPos) {
+            console.log("score plus 1");
+        }
     }
 }
 let init = () => {
