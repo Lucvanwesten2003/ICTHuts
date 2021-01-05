@@ -1,6 +1,7 @@
 class Game {
     constructor(canvasId) {
         this.loop = () => {
+            this.newLevel();
             this.counter++;
             if (this.counter === 60) {
                 this.makeFish();
@@ -66,6 +67,17 @@ class Game {
                 rocket.draw(this.ctx);
             });
             this.writeTextToCanvas(this.ctx, `Score is: ${this.hengel._score}`, 40, this.canvas.width / 2, 40);
+        }
+    }
+    newLevel() {
+        if (this.hengel._score < 5) {
+            document.body.style.background = `url("./assets/achtergrond_level_1.png") no-repeat center center fixed`;
+        }
+        else if (this.hengel._score > 10 && this.hengel._score < 15) {
+            document.body.style.background = `url("./assets/achtergrond_level_2.png") no-repeat center center fixed`;
+        }
+        else if (this.hengel._score > 15) {
+            document.body.style.background = `url("./assets/achtergrond_level_3.png") no-repeat center center fixed`;
         }
     }
     writeTextToCanvas(ctx, text, fontSize = 20, xCoordinate, yCoordinate, alignment = "center", color = "red") {
