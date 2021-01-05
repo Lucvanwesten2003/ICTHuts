@@ -196,7 +196,7 @@ class Hengel {
     hengelCollidesWithFish(rockets, player) {
         console.log(this.maxY);
         rockets.forEach((rocket, index) => {
-            if (rocket.yPosition < 450) {
+            if (rocket.yPosition <= this.maxY) {
                 rockets.splice(index, 1);
             }
             if (rocket.xPosition < player.xPosition + player.image.width &&
@@ -220,7 +220,7 @@ class Hengel {
         rocket.yPosition = this._yPosition;
         rocket.xPosition = player.xPosition + player.image.width - 50;
         console.log(rocket.yPosition);
-        if (rocket.yPosition < 450) {
+        if (rocket.yPosition <= this.maxY) {
             this.score++;
             this.checker = 0;
         }
