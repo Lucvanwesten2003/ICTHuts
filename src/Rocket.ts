@@ -6,7 +6,7 @@ class Rocket extends GameItem{
         this.name = name
         this._xPosition = xPos
         this._yPosition = yPos
-        this.speed = speed
+        this._speed = speed
         this.type = type
         this._image = this.loadNewImage(image)
         this.rocketFactory()
@@ -15,6 +15,10 @@ class Rocket extends GameItem{
     
     get image(): HTMLImageElement{
         return this._image
+    }
+    
+    set image(image: HTMLImageElement){
+        this._image = image
     }
 
     /**

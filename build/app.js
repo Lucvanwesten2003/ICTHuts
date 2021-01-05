@@ -11,7 +11,7 @@ class Game {
             this.move();
             this.drawHengel(this.ctx);
             this.hengel.move(this.canvas);
-            this.hengel.hengelCollidesWithFish(this.rockets, this.player.xPosition);
+            this.hengel.hengelCollidesWithFish(this.rockets, this.player);
             this.player.move(this.canvas);
             if (this.keyBoard.isKeyDown(KeyboardListener.KEY_F11)) {
                 location.reload();
@@ -84,17 +84,32 @@ class GameItem {
         this.name = name;
         this._xPosition = xPos;
         this._yPosition = yPos;
-        this.speed = speed;
+        this._speed = speed;
         this._image = this.loadNewImage(image);
     }
     get xPosition() {
         return this._xPosition;
     }
+    set xPosition(xPos) {
+        this._xPosition = xPos;
+    }
     get yPosition() {
         return this._yPosition;
     }
+    set yPosition(yPos) {
+        this._yPosition = yPos;
+    }
     get image() {
         return this._image;
+    }
+    get speed() {
+        return this._speed;
+    }
+    set speed(speed) {
+        this._speed = speed;
+    }
+    get _name() {
+        return this.name;
     }
     loadNewImage(source) {
         const img = new Image();
@@ -151,6 +166,7 @@ class Player extends GameItem {
 }
 class Hengel {
     constructor(yPos, speed, image) {
+        this.checker = 0;
         this.maxY = yPos;
         this._yPosition = yPos;
         this.speed = speed;
@@ -177,16 +193,37 @@ class Hengel {
         img.src = source;
         return img;
     }
-    hengelCollidesWithFish(rockets, xPos) {
-        rockets.forEach((rocket) => {
-            if (rocket.xPosition < xPos + this._image.width &&
-                rocket.xPosition + rocket.image.width > xPos &&
+    hengelCollidesWithFish(rockets, player) {
+        console.log(this.maxY);
+        rockets.forEach((rocket, index) => {
+            if (rocket.yPosition < 450) {
+                rockets.splice(index, 1);
+            }
+            if (rocket.xPosition < player.xPosition + player.image.width &&
+                rocket.xPosition + rocket.image.width > player.xPosition + player.image.width &&
                 rocket.yPosition < this._yPosition + this._image.height &&
                 rocket.yPosition + rocket.image.height > this._yPosition) {
-                console.log('pog');
-                this.score += 1;
+                if (this.checker === 0) {
+                    rocket.speed = 0;
+                    this.catchedFish = rocket;
+                    this.checker++;
+                    console.log("if activated");
+                    this.player = player;
+                }
             }
         });
+        if (this.checker === 1) {
+            this.updatePosition(this.catchedFish, this.player);
+        }
+    }
+    updatePosition(rocket, player) {
+        rocket.yPosition = this._yPosition;
+        rocket.xPosition = player.xPosition + player.image.width - 50;
+        console.log(rocket.yPosition);
+        if (rocket.yPosition < 450) {
+            this.score++;
+            this.checker = 0;
+        }
     }
     get _score() {
         return this.score;
@@ -221,13 +258,16 @@ class Rocket extends GameItem {
         this.name = name;
         this._xPosition = xPos;
         this._yPosition = yPos;
-        this.speed = speed;
+        this._speed = speed;
         this.type = type;
         this._image = this.loadNewImage(image);
         this.rocketFactory();
     }
     get image() {
         return this._image;
+    }
+    set image(image) {
+        this._image = image;
     }
     rocketFactory() {
         if (this.type == "aliveFish") {

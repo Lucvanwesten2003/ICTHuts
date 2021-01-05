@@ -7,6 +7,7 @@ class Game {
     private counter: number;
     private keyBoard: KeyboardListener;
     private hengel: Hengel;
+    private catchedFish: Rocket;
 
     public constructor(canvasId: HTMLCanvasElement) {
         // Construct all of the canvas
@@ -46,12 +47,11 @@ class Game {
         this.move();
         this.drawHengel(this.ctx)
         this.hengel.move(this.canvas)
-        this.hengel.hengelCollidesWithFish(this.rockets, this.player.xPosition);
+        this.hengel.hengelCollidesWithFish(this.rockets, this.player);
         this.player.move(this.canvas);
         if (this.keyBoard.isKeyDown(KeyboardListener.KEY_F11)){
             location.reload()
         }
-
         requestAnimationFrame(this.loop);
     };
 
@@ -89,6 +89,7 @@ class Game {
      * draws the rocket
      */
     public drawHengel(ctx: CanvasRenderingContext2D){
+        //ctx.drawImage(this.hengel._catchedFish.image, this.hengel._catchedFish.xPosition, this.hengel._catchedFish.yPosition)
         ctx.drawImage(this.hengel.image, this.player.xPosition + this.player.image.width - 50, this.hengel.yPosition)
         ctx.strokeStyle = 'black';
         ctx.lineWidth = 2;

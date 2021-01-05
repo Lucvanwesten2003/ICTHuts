@@ -2,14 +2,14 @@ abstract class GameItem{
     protected name: string
     protected _xPosition: number;
     protected _yPosition: number;
-    protected speed: number;
+    protected _speed: number;
     protected _image: HTMLImageElement;
 
     public constructor(name: string, xPos: number, yPos: number, speed: number, image: string){
         this.name = name
         this._xPosition = xPos
         this._yPosition = yPos
-        this.speed = speed
+        this._speed = speed
         this._image = this.loadNewImage(image)
     }
 
@@ -17,13 +17,35 @@ abstract class GameItem{
         return this._xPosition
     }
 
-    get yPosition(): number{
+    set xPosition(xPos: number){
+        this._xPosition = xPos
+    }
+
+    public get yPosition(): number{
         return this._yPosition
     }
 
-    get image(): HTMLImageElement{
+    public set yPosition(yPos: number){
+        this._yPosition = yPos;
+    }
+
+    public get image(): HTMLImageElement{
         return this._image;
     }
+
+    get speed(): number{
+        return this._speed
+    }
+
+    set speed(speed: number){
+        this._speed = speed;
+    }
+
+    get _name(): string{
+        return this.name
+    }
+
+    
 
             /**
      * Loads an image so it doesn't flicker
