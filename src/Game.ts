@@ -37,6 +37,7 @@ class Game {
      * Method for the Game Loop
      */
     public loop = () => {
+        this.newLevel();
         this.score++;
         this.counter++;
         if(this.counter === 60 ){
@@ -127,6 +128,17 @@ class Game {
             }
     }
 
+    private newLevel() {
+        if(this.hengel._score < 5) {
+            document.body.style.background = `url("./assets/achtergrond_level_1.png") no-repeat center center fixed`;
+        }
+        else if(this.hengel._score> 10 && this.hengel._score < 15) {
+            document.body.style.background = `url("./assets/achtergrond_level_2.png") no-repeat center center fixed`;
+        }
+        else if(this.hengel._score> 15) {
+            document.body.style.background = `url("./assets/achtergrond_level_3.png") no-repeat center center fixed`;
+        }
+    }
             
 
 
