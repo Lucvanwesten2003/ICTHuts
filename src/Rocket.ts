@@ -8,7 +8,7 @@ class Rocket extends GameItem{
         this._yPosition = yPos
         this._speed = speed
         this.type = type
-        this._image = this.loadNewImage(image)
+        this._image = GameItem.loadNewImage(image)
         this.rocketFactory()
     }
 

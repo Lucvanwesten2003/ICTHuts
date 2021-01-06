@@ -126,7 +126,7 @@ class GameItem {
         this._xPosition = xPos;
         this._yPosition = yPos;
         this._speed = speed;
-        this._image = this.loadNewImage(image);
+        this._image = GameItem.loadNewImage(image);
     }
     get xPosition() {
         return this._xPosition;
@@ -143,6 +143,9 @@ class GameItem {
     get image() {
         return this._image;
     }
+    set image(img) {
+        this._image = img;
+    }
     get speed() {
         return this._speed;
     }
@@ -152,7 +155,7 @@ class GameItem {
     get _name() {
         return this.name;
     }
-    loadNewImage(source) {
+    static loadNewImage(source) {
         const img = new Image();
         img.src = source;
         return img;
@@ -165,7 +168,7 @@ class Player extends GameItem {
         this._xPosition = xPos;
         this._yPosition = yPos;
         this.speed = speed;
-        this._image = this.loadNewImage(image);
+        this._image = GameItem.loadNewImage(image);
         this.keyBoardListener = new KeyboardListener();
     }
     get yPosition() {
@@ -317,7 +320,7 @@ class Rocket extends GameItem {
         this._yPosition = yPos;
         this._speed = speed;
         this.type = type;
-        this._image = this.loadNewImage(image);
+        this._image = GameItem.loadNewImage(image);
         this.rocketFactory();
     }
     get image() {
