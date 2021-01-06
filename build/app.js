@@ -66,7 +66,7 @@ class Game {
     }
     drawPortal(ctx) {
         if (this.level < 2) {
-            if (this.hengel._score > 2 && this.hengel._score < 4) {
+            if (this.hengel._score > 2) {
                 ctx.drawImage(this.portal.image, this.canvas.width - this.portal.image.width, this.player.yPosition - 100);
             }
         }
