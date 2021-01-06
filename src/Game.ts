@@ -131,12 +131,15 @@ class Game {
     private newLevel() {
         if(this.hengel._score < 1) {
             document.body.style.background = `url("./assets/achtergrond_level_1.png") no-repeat center center fixed`;
+            document.body.style.backgroundSize = 'cover'
         }
         else if(this.hengel._score> 3 && this.hengel._score < 15) {
             document.body.style.background = `url("./assets/achtergrond_level_2.png") no-repeat center center fixed`;
+            document.body.style.backgroundSize = 'cover'
         }
         else if(this.hengel._score> 15) {
             document.body.style.background = `url("./assets/achtergrond_level_3.png") no-repeat center center fixed`;
+            document.body.style.backgroundSize = 'cover'
         }
     }
             

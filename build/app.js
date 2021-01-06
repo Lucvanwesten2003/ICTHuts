@@ -73,12 +73,15 @@ class Game {
     newLevel() {
         if (this.hengel._score < 1) {
             document.body.style.background = `url("./assets/achtergrond_level_1.png") no-repeat center center fixed`;
+            document.body.style.backgroundSize = 'cover';
         }
         else if (this.hengel._score > 3 && this.hengel._score < 15) {
             document.body.style.background = `url("./assets/achtergrond_level_2.png") no-repeat center center fixed`;
+            document.body.style.backgroundSize = 'cover';
         }
         else if (this.hengel._score > 15) {
             document.body.style.background = `url("./assets/achtergrond_level_3.png") no-repeat center center fixed`;
+            document.body.style.backgroundSize = 'cover';
         }
     }
     writeTextToCanvas(ctx, text, fontSize = 20, xCoordinate, yCoordinate, alignment = "center", color = "red") {
