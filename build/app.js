@@ -8,9 +8,11 @@ class Game {
                 this.makeFish();
                 this.counter = 0;
             }
+            console.log(this.level);
             this.draw();
             this.move();
             this.drawHengel(this.ctx);
+            this.drawPortal(this.ctx);
             this.hengel.move(this.canvas);
             this.hengel.hengelCollidesWithFish(this.rockets, this.player);
             this.player.move(this.canvas);
@@ -29,7 +31,9 @@ class Game {
         this.player = new Player('Me', this.canvas.width / 2.25, this.canvas.height / 2 - 80, 5, "./assets/mcboot.png");
         console.log(this.player);
         this.hengel = new Hengel(this.canvas.height / 2 - 60, 3, "./assets/hook.png");
+        this.portal = new Portal("./assets/nether_portal.png");
         this.score = 0;
+        this.level = 0;
         this.loop();
         this.counter = 0;
     }
@@ -60,6 +64,18 @@ class Game {
         ctx.lineTo(this.player.xPosition + this.player.image.width - 10, this.hengel.yPosition + 10);
         ctx.stroke();
     }
+    drawPortal(ctx) {
+        if (this.level < 2) {
+            if (this.hengel._score > 2 && this.hengel._score < 4) {
+                ctx.drawImage(this.portal.image, this.canvas.width - this.portal.image.width, this.player.yPosition - 100);
+            }
+        }
+        if (this.level > 1 && this.level < 3) {
+            if (this.hengel._score > 2 && this.hengel._score < 4) {
+                ctx.drawImage(this.portal.image, 0, this.player.yPosition - 100);
+            }
+        }
+    }
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.player.draw(this.ctx);
@@ -71,14 +87,27 @@ class Game {
         }
     }
     newLevel() {
-        if (this.hengel._score < 1) {
+        if (this.hengel._score < 3) {
+            this.level = 1;
             document.body.style.background = `url("./assets/achtergrond_level_1.png") no-repeat center center fixed`;
+            document.body.style.backgroundSize = 'cover';
         }
-        else if (this.hengel._score > 3 && this.hengel._score < 15) {
-            document.body.style.background = `url("./assets/achtergrond_level_2.png") no-repeat center center fixed`;
+        else if (this.hengel._score >= 3 && this.hengel._score <= 7) {
+            this.portalCollision(this.ctx);
         }
-        else if (this.hengel._score > 15) {
+        else if (this.hengel._score > 7) {
+            this.level = 3;
             document.body.style.background = `url("./assets/achtergrond_level_3.png") no-repeat center center fixed`;
+            document.body.style.backgroundSize = 'cover';
+        }
+    }
+    portalCollision(ctx) {
+        if (this.player.xPosition >= this.canvas.width - 300) {
+            this.level = 2;
+            document.body.style.background = `url("./assets/achtergrond_level_2.png") no-repeat center center fixed`;
+            document.body.style.backgroundSize = 'cover';
+            this.player.xPosition = 0;
+            console.log("next level");
         }
     }
     writeTextToCanvas(ctx, text, fontSize = 20, xCoordinate, yCoordinate, alignment = "center", color = "red") {
@@ -138,6 +167,9 @@ class Player extends GameItem {
         this.speed = speed;
         this._image = this.loadNewImage(image);
         this.keyBoardListener = new KeyboardListener();
+    }
+    get yPosition() {
+        return this._yPosition;
     }
     move(canvas) {
         if (this.keyBoardListener.isKeyDown(KeyboardListener.KEY_LEFT) && this._xPosition > 20) {
@@ -264,6 +296,19 @@ KeyboardListener.KEY_RIGHT = 39;
 KeyboardListener.KEY_DOWN = 40;
 KeyboardListener.KEY_R = 82;
 KeyboardListener.KEY_F11 = 122;
+class Portal {
+    constructor(image) {
+        this._image = this.loadNewImage(image);
+    }
+    loadNewImage(source) {
+        const img = new Image();
+        img.src = source;
+        return img;
+    }
+    get image() {
+        return this._image;
+    }
+}
 class Rocket extends GameItem {
     constructor(name, xPos, yPos, speed, type, image) {
         super(name, xPos, yPos, speed, image);

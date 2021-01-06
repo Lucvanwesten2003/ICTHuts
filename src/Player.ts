@@ -13,6 +13,10 @@ class Player extends GameItem{
         this.keyBoardListener = new KeyboardListener();
     }
 
+    get yPosition(): number{
+        return this._yPosition
+    }
+
     /**
      * moves the player if key is pressed
      */

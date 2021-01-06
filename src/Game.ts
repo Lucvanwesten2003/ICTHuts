@@ -8,6 +8,8 @@ class Game {
     private keyBoard: KeyboardListener;
     private hengel: Hengel;
     private catchedFish: Rocket;
+    private portal: Portal;
+    private level: number;
 
     public constructor(canvasId: HTMLCanvasElement) {
         // Construct all of the canvas
@@ -20,16 +22,19 @@ class Game {
 
         console.log(this.rockets);
 
-        this.player = new Player('Me', 
-        this.canvas.width / 2.25, 
-        this.canvas.height / 2 - 80,
-        5,
-        "./assets/mcboot.png");
+        this.player = new Player('Me',
+            this.canvas.width / 2.25,
+            this.canvas.height / 2 - 80,
+            5,
+            "./assets/mcboot.png");
         console.log(this.player);
 
-        this.hengel = new Hengel(this.canvas.height / 2 - 60, 3,"./assets/hook.png")
+        this.hengel = new Hengel(this.canvas.height / 2 - 60, 3, "./assets/hook.png")
+
+        this.portal = new Portal("./assets/nether_portal.png")
 
         this.score = 0;
+        this.level = 0;
         this.loop();
         this.counter = 0;
     }
@@ -40,17 +45,19 @@ class Game {
         this.newLevel();
         this.score++;
         this.counter++;
-        if(this.counter === 60 ){
+        if (this.counter === 60) {
             this.makeFish()
             this.counter = 0;
         }
+        console.log(this.level)
         this.draw();
         this.move();
         this.drawHengel(this.ctx)
+        this.drawPortal(this.ctx)
         this.hengel.move(this.canvas)
         this.hengel.hengelCollidesWithFish(this.rockets, this.player);
         this.player.move(this.canvas);
-        if (this.keyBoard.isKeyDown(KeyboardListener.KEY_F11)){
+        if (this.keyBoard.isKeyDown(KeyboardListener.KEY_F11)) {
             location.reload()
         }
         requestAnimationFrame(this.loop);
@@ -58,7 +65,7 @@ class Game {
 
     private makeFish() {
         for (let index = 0; index < 1; index++) {
-            let randomFish = ['alive','dead']
+            let randomFish = ['alive', 'dead']
             const randomElement = randomFish[Math.floor(Math.random() * randomFish.length)];
             if (randomElement === 'alive') {
                 this.rockets.push(new Rocket('aliveFish',
@@ -81,24 +88,37 @@ class Game {
     public move() {
         this.rockets.forEach((rocket) => {
             rocket.move()
-            });
+        });
     }
 
-          /**
-     * 
-     * @param ctx 
-     * draws the rocket
-     */
-    public drawHengel(ctx: CanvasRenderingContext2D){
+    /**
+* 
+* @param ctx 
+* draws the rocket
+*/
+    public drawHengel(ctx: CanvasRenderingContext2D) {
         //ctx.drawImage(this.hengel._catchedFish.image, this.hengel._catchedFish.xPosition, this.hengel._catchedFish.yPosition)
         ctx.drawImage(this.hengel.image, this.player.xPosition + this.player.image.width - 50, this.hengel.yPosition)
         ctx.strokeStyle = 'black';
         ctx.lineWidth = 2;
         ctx.beginPath();
-        ctx.moveTo(this.player.xPosition + this.player.image.width,this.player.yPosition + 25)
-        ctx.lineTo(this.player.xPosition + this.player.image.width - 10,this.hengel.yPosition + 10)
+        ctx.moveTo(this.player.xPosition + this.player.image.width, this.player.yPosition + 25)
+        ctx.lineTo(this.player.xPosition + this.player.image.width - 10, this.hengel.yPosition + 10)
         ctx.stroke()
     }
+
+    public drawPortal(ctx: CanvasRenderingContext2D) {
+            if(this.level < 2) {
+                if(this.hengel._score > 2 && this.hengel._score < 4) {
+                ctx.drawImage(this.portal.image, this.canvas.width - this.portal.image.width, this.player.yPosition - 100)
+                }
+            }
+            if(this.level > 1 && this.level < 3) {
+                if(this.hengel._score > 2 && this.hengel._score < 4) {
+                    ctx.drawImage(this.portal.image, 0, this.player.yPosition - 100)
+                }
+            }
+        }
 
 
     /**
@@ -107,14 +127,14 @@ class Game {
     public draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.player.draw(this.ctx);
-        
+
         // when there are elements in the rocket array
         if (this.rockets.length != 0) {
             // clear the canvas
 
             // draw each rocket
             this.rockets.forEach((rocket) => {
-               rocket.draw(this.ctx)
+                rocket.draw(this.ctx)
             });
 
             //write the current score
@@ -125,21 +145,36 @@ class Game {
                 this.canvas.width / 2,
                 40
             );
-            }
+        }
     }
 
     private newLevel() {
-        if(this.hengel._score < 1) {
+        if (this.hengel._score < 3) {
+            this.level = 1;
             document.body.style.background = `url("./assets/achtergrond_level_1.png") no-repeat center center fixed`;
+            document.body.style.backgroundSize = 'cover'
         }
-        else if(this.hengel._score> 3 && this.hengel._score < 15) {
-            document.body.style.background = `url("./assets/achtergrond_level_2.png") no-repeat center center fixed`;
+        else if (this.hengel._score >= 3 && this.hengel._score <= 7) {
+            this.portalCollision(this.ctx);
         }
-        else if(this.hengel._score> 15) {
+        else if (this.hengel._score > 7) {
+            this.level = 3;
             document.body.style.background = `url("./assets/achtergrond_level_3.png") no-repeat center center fixed`;
+            document.body.style.backgroundSize = 'cover'
         }
     }
-            
+
+    private portalCollision(ctx: CanvasRenderingContext2D) {
+        if (this.player.xPosition >= this.canvas.width - 300) {
+            this.level = 2;
+            document.body.style.background = `url("./assets/achtergrond_level_2.png") no-repeat center center fixed`;
+            document.body.style.backgroundSize = 'cover'
+            this.player.xPosition = 0;
+            console.log("next level");
+        }
+    }
+
+
 
 
     /**
@@ -174,4 +209,4 @@ class Game {
     public static randomNumber(min: number, max: number): number {
         return Math.round(Math.random() * (max - min) + min);
     }
- }
+}
