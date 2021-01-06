@@ -166,6 +166,7 @@ class Game {
 
     private portalCollision(ctx: CanvasRenderingContext2D) {
         if (this.player.xPosition >= this.canvas.width - 300) {
+            this.player.image = GameItem.loadNewImage('./assets/mcboot2.png');
             this.level = 2;
             document.body.style.background = `url("./assets/achtergrond_level_2.png") no-repeat center center fixed`;
             document.body.style.backgroundSize = 'cover'
