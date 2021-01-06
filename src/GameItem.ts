@@ -10,7 +10,7 @@ abstract class GameItem{
         this._xPosition = xPos
         this._yPosition = yPos
         this._speed = speed
-        this._image = this.loadNewImage(image)
+        this._image = GameItem.loadNewImage(image)
     }
 
     get xPosition(): number{
@@ -33,6 +33,10 @@ abstract class GameItem{
         return this._image;
     }
 
+    public set image(img: HTMLImageElement){
+        this._image = img
+    }
+
     get speed(): number{
         return this._speed
     }
@@ -52,7 +56,7 @@ abstract class GameItem{
      * @param {HTMLImageElement} source
      * @return HTMLImageElement - returns an image
      */
-    protected loadNewImage(source: string): HTMLImageElement {
+    static loadNewImage(source: string): HTMLImageElement {
         const img = new Image();
         img.src = source;
         return img;

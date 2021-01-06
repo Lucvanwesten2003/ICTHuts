@@ -78,6 +78,7 @@ class Game {
         else if (this.hengel._score > 3 && this.hengel._score < 15) {
             document.body.style.background = `url("./assets/achtergrond_level_2.png") no-repeat center center fixed`;
             document.body.style.backgroundSize = 'cover';
+            this.player.image = GameItem.loadNewImage('./assets/mcboot2.png');
         }
         else if (this.hengel._score > 15) {
             document.body.style.background = `url("./assets/achtergrond_level_3.png") no-repeat center center fixed`;
@@ -100,7 +101,7 @@ class GameItem {
         this._xPosition = xPos;
         this._yPosition = yPos;
         this._speed = speed;
-        this._image = this.loadNewImage(image);
+        this._image = GameItem.loadNewImage(image);
     }
     get xPosition() {
         return this._xPosition;
@@ -117,6 +118,9 @@ class GameItem {
     get image() {
         return this._image;
     }
+    set image(img) {
+        this._image = img;
+    }
     get speed() {
         return this._speed;
     }
@@ -126,7 +130,7 @@ class GameItem {
     get _name() {
         return this.name;
     }
-    loadNewImage(source) {
+    static loadNewImage(source) {
         const img = new Image();
         img.src = source;
         return img;
@@ -139,7 +143,7 @@ class Player extends GameItem {
         this._xPosition = xPos;
         this._yPosition = yPos;
         this.speed = speed;
-        this._image = this.loadNewImage(image);
+        this._image = GameItem.loadNewImage(image);
         this.keyBoardListener = new KeyboardListener();
     }
     move(canvas) {
@@ -275,7 +279,7 @@ class Rocket extends GameItem {
         this._yPosition = yPos;
         this._speed = speed;
         this.type = type;
-        this._image = this.loadNewImage(image);
+        this._image = GameItem.loadNewImage(image);
         this.rocketFactory();
     }
     get image() {

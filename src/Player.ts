@@ -9,7 +9,7 @@ class Player extends GameItem{
         this._xPosition = xPos
         this._yPosition = yPos
         this.speed = speed
-        this._image = this.loadNewImage(image)
+        this._image = GameItem.loadNewImage(image)
         this.keyBoardListener = new KeyboardListener();
     }
 
