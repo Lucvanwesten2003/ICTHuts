@@ -61,7 +61,7 @@ class Game {
             location.reload()
         }
         if (this.keyBoard.isKeyDown(KeyboardListener.KEY_F5)) {
-            window.location.pathname = '/index.html'
+            window.location.pathname = './index.html'
         }
         requestAnimationFrame(this.loop);
     };
