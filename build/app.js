@@ -19,6 +19,9 @@ class Game {
             if (this.keyBoard.isKeyDown(KeyboardListener.KEY_F11)) {
                 location.reload();
             }
+            if (this.keyBoard.isKeyDown(KeyboardListener.KEY_F5)) {
+                window.location.pathname = '/index.html';
+            }
             requestAnimationFrame(this.loop);
         };
         this.canvas = canvasId;
@@ -92,10 +95,10 @@ class Game {
             document.body.style.background = `url("./assets/achtergrond_level_1.png") no-repeat center center fixed`;
             document.body.style.backgroundSize = 'cover';
         }
-        else if (this.hengel._score >= 3 && this.hengel._score <= 7) {
+        else if (this.hengel._score >= 3 && this.hengel._score <= 8) {
             this.portalCollision(this.ctx);
         }
-        else if (this.hengel._score > 7) {
+        else if (this.hengel._score > 7 && this.level > 1) {
             this.level = 3;
             document.body.style.background = `url("./assets/achtergrond_level_3.png") no-repeat center center fixed`;
             document.body.style.backgroundSize = 'cover';
@@ -300,6 +303,7 @@ KeyboardListener.KEY_RIGHT = 39;
 KeyboardListener.KEY_DOWN = 40;
 KeyboardListener.KEY_R = 82;
 KeyboardListener.KEY_F11 = 122;
+KeyboardListener.KEY_F5 = 116;
 class Portal {
     constructor(image) {
         this._image = this.loadNewImage(image);
