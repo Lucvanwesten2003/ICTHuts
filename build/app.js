@@ -20,7 +20,7 @@ class Game {
                 location.reload();
             }
             if (this.keyBoard.isKeyDown(KeyboardListener.KEY_F5)) {
-                window.location.pathname = '/index.html';
+                window.location.href = 'https://lucvanwesten2003.github.io/ICTHuts/';
             }
             requestAnimationFrame(this.loop);
         };
