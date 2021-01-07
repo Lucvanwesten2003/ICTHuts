@@ -60,9 +60,9 @@ class Game {
         if (this.keyBoard.isKeyDown(KeyboardListener.KEY_F11)) {
             location.reload()
         }
-        if (this.keyBoard.isKeyDown(KeyboardListener.KEY_F5)) {
-            location.href = 'index.html'
-        }
+        //if (this.keyBoard.isKeyDown(KeyboardListener.KEY_F5)) {
+           // location.href = 'index.html'
+        //}
         requestAnimationFrame(this.loop);
     };
 
