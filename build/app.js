@@ -1,3 +1,22 @@
+class Portal {
+    constructor(image) {
+        this._image = this.loadNewImage(image);
+    }
+    loadNewImage(source) {
+        const img = new Image();
+        img.src = source;
+        return img;
+    }
+    get image() {
+        return this._image;
+    }
+}
+class EndPortal extends Portal {
+    constructor(image) {
+        super(image);
+        this._image = this.loadNewImage(image);
+    }
+}
 class Game {
     constructor(canvasId) {
         this.loop = () => {
@@ -31,10 +50,12 @@ class Game {
         this.rockets = [];
         this.keyBoard = new KeyboardListener;
         console.log(this.rockets);
-        this.player = new Player('Me', this.canvas.width / 2.25, this.canvas.height / 2 - 80, 5, "./assets/mcboot.png");
+        this.player = new Player('Me', this.canvas.width / 2.25, this.canvas.height / 2 - 80, 5, "./assets/Images/mcboot.png");
         console.log(this.player);
-        this.hengel = new Hengel(this.canvas.height / 2 - 60, 3, "./assets/hook.png");
-        this.portal = new Portal("./assets/nether_portal.png");
+        this.hengel = new Hengel(this.canvas.height / 2 - 60, 3, "./assets/Images/hook.png");
+        this.netherPortal = new NetherPortal("./assets/Images/nether_portal.png");
+        this.endPortal = new EndPortal("./assets/Images/end_portal.png");
+        this.soundEffect("./assets/Sounds/Background_music.mp3", 0.5, 0.05);
         this.score = 0;
         this.level = 0;
         this.loop();
@@ -45,11 +66,11 @@ class Game {
             let randomFish = ['alive', 'dead'];
             const randomElement = randomFish[Math.floor(Math.random() * randomFish.length)];
             if (randomElement === 'alive') {
-                this.rockets.push(new Rocket('aliveFish', Game.randomNumber(0, this.canvas.width - 200), Game.randomNumber(this.player.yPosition + 200, this.canvas.height - 50), Game.randomNumber(2, 5), "aliveFish", "./assets/aliveFish.png"));
+                this.rockets.push(new Rocket('aliveFish', Game.randomNumber(0, this.canvas.width - 200), Game.randomNumber(this.player.yPosition + 200, this.canvas.height - 50), Game.randomNumber(2, 5), "aliveFish", "./assets/Images/aliveFish.png"));
                 console.log("alvieFish");
             }
             else {
-                this.rockets.push(new Rocket('deadFish', Game.randomNumber(0, this.canvas.width - 200), Game.randomNumber(this.player.yPosition + 200, this.canvas.height - 50), Game.randomNumber(2, 5), "deadFish", "./assets/deadFish.png"));
+                this.rockets.push(new Rocket('deadFish', Game.randomNumber(0, this.canvas.width - 200), Game.randomNumber(this.player.yPosition + 200, this.canvas.height - 50), Game.randomNumber(2, 5), "deadFish", "./assets/Images/deadFish.png"));
             }
         }
     }
@@ -68,14 +89,16 @@ class Game {
         ctx.stroke();
     }
     drawPortal(ctx) {
-        if (this.level < 2) {
+        if (this.level == 1) {
             if (this.hengel._score > 2) {
-                ctx.drawImage(this.portal.image, this.canvas.width - this.portal.image.width, this.player.yPosition - 100);
+                ctx.drawImage(this.netherPortal.image, this.canvas.width - this.netherPortal.image.width, this.player.yPosition - 100);
+                this.portalCollision();
             }
         }
-        if (this.level > 1 && this.level < 3) {
-            if (this.hengel._score > 2 && this.hengel._score < 4) {
-                ctx.drawImage(this.portal.image, 0, this.player.yPosition - 100);
+        if (this.level == 2) {
+            if (this.hengel._score > 7) {
+                ctx.drawImage(this.endPortal.image, this.canvas.width - this.endPortal.image.width, this.player.yPosition - 120);
+                this.portalCollision();
             }
         }
     }
@@ -92,29 +115,36 @@ class Game {
     newLevel() {
         if (this.hengel._score < 3) {
             this.level = 1;
-            document.body.style.background = `url("./assets/achtergrond_level_1.png") no-repeat center center fixed`;
-            document.body.style.backgroundSize = 'cover';
-        }
-        else if (this.hengel._score >= 3 && this.hengel._score <= 8) {
-            this.portalCollision(this.ctx);
-        }
-        else if (this.hengel._score > 7 && this.level > 1) {
-            this.level = 3;
-            document.body.style.background = `url("./assets/achtergrond_level_3.png") no-repeat center center fixed`;
+            document.body.style.background = `url("./assets/Images/achtergrond_level_1.png") no-repeat center center fixed`;
             document.body.style.backgroundSize = 'cover';
         }
     }
-    portalCollision(ctx) {
-        if (this.player.xPosition >= this.canvas.width - 300) {
-            this.player.image = GameItem.loadNewImage('./assets/mcboot2.png');
+    portalCollision() {
+        if (this.player.xPosition >= this.canvas.width - this.netherPortal.image.width - this.player.image.width) {
+            this.soundEffect("./assets/Sounds/Nether_portal.mp3", 0.5, 0.4);
+            this.player.image = GameItem.loadNewImage('./assets/Images/mcboot2.png');
             this.level = 2;
-            document.body.style.background = `url("./assets/achtergrond_level_2.png") no-repeat center center fixed`;
+            document.body.style.background = `url("./assets/Images/achtergrond_level_2.png") no-repeat center center fixed`;
+            document.body.style.backgroundSize = 'cover';
+            this.player.xPosition = 0;
+            console.log("next level");
+        }
+        if (this.player.xPosition >= this.canvas.width - this.endPortal.image.width - this.player.image.width && this.level == 2) {
+            this.soundEffect("./assets/Sounds/End_portal.mp3", 0.5, 0.8);
+            this.level = 3;
+            document.body.style.background = `url("./assets/Images/achtergrond_level_3.png") no-repeat center center fixed`;
             document.body.style.backgroundSize = 'cover';
             this.player.xPosition = 0;
             console.log("next level");
         }
     }
-    writeTextToCanvas(ctx, text, fontSize = 20, xCoordinate, yCoordinate, alignment = "center", color = "red") {
+    soundEffect(url, time, volume) {
+        let audio = new Audio(url);
+        audio.currentTime = time;
+        audio.volume = volume;
+        audio.play();
+    }
+    writeTextToCanvas(ctx, text, fontSize = 20, xCoordinate, yCoordinate, alignment = "center", color = "white") {
         ctx.font = `${fontSize}px Minecraft`;
         ctx.fillStyle = color;
         ctx.textAlign = alignment;
@@ -271,10 +301,21 @@ class Hengel {
         rocket.yPosition = this._yPosition;
         rocket.xPosition = player.xPosition + player.image.width - 50;
         console.log(rocket.yPosition);
-        if (rocket.yPosition <= this.maxY) {
+        if (rocket.yPosition <= this.maxY && rocket._name == "aliveFish") {
             this.score++;
             this.checker = 0;
+            this.soundEffect("./assets/Sounds/good_fish.mp3", 1.2, 0.5);
         }
+        if (rocket.yPosition <= this.maxY && rocket._name == "deadFish") {
+            this.checker = 0;
+            this.soundEffect("./assets/Sounds/oof_sound.mp3", 0.5, 0.5);
+        }
+    }
+    soundEffect(url, time, volume) {
+        let audio = new Audio(url);
+        audio.currentTime = time;
+        audio.volume = volume;
+        audio.play();
     }
     get _score() {
         return this.score;
@@ -304,17 +345,10 @@ KeyboardListener.KEY_DOWN = 40;
 KeyboardListener.KEY_R = 82;
 KeyboardListener.KEY_F11 = 122;
 KeyboardListener.KEY_F5 = 116;
-class Portal {
+class NetherPortal extends Portal {
     constructor(image) {
+        super(image);
         this._image = this.loadNewImage(image);
-    }
-    loadNewImage(source) {
-        const img = new Image();
-        img.src = source;
-        return img;
-    }
-    get image() {
-        return this._image;
     }
 }
 class Rocket extends GameItem {

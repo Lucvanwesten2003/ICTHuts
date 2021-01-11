@@ -1,5 +1,5 @@
-class Portal {
-    private _image: HTMLImageElement;
+abstract class Portal {
+    protected _image: HTMLImageElement;
 
     public constructor(image: string){
         this._image = this.loadNewImage(image)
@@ -10,7 +10,7 @@ class Portal {
      * @param {HTMLImageElement} source
      * @return HTMLImageElement - returns an image
      */
-    private loadNewImage(source: string): HTMLImageElement {
+    protected loadNewImage(source: string): HTMLImageElement {
         const img = new Image();
         img.src = source;
         return img;
