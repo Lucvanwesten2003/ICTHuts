@@ -121,7 +121,7 @@ class Game {
     }
     portalCollision() {
         if (this.player.xPosition >= this.canvas.width - this.netherPortal.image.width - this.player.image.width) {
-            this.soundEffect("./assets/Sounds/Nether_portal.mp3", 0.5, 0.4);
+            this.soundEffect("./assets/Sounds/Nether_portal.mp3", 0.5, 0.1);
             this.player.image = GameItem.loadNewImage('./assets/Images/mcboot2.png');
             this.level = 2;
             document.body.style.background = `url("./assets/Images/achtergrond_level_2.png") no-repeat center center fixed`;
@@ -304,7 +304,7 @@ class Hengel {
         if (rocket.yPosition <= this.maxY && rocket._name == "aliveFish") {
             this.score++;
             this.checker = 0;
-            this.soundEffect("./assets/Sounds/good_fish.mp3", 1.2, 0.5);
+            this.soundEffect("./assets/Sounds/good_fish.mp3", 1.2, 0.3);
         }
         if (rocket.yPosition <= this.maxY && rocket._name == "deadFish") {
             this.checker = 0;
