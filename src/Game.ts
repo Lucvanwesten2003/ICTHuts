@@ -177,7 +177,7 @@ class Game {
             console.log("next level");
         }
         if (this.player.xPosition >= this.canvas.width - this.endPortal.image.width - this.player.image.width && this.level == 2) {
-            this.soundEffect("./assets/Sounds/End_portal.mp3", 0.5, 0.8);
+            this.soundEffect("./assets/Sounds/End_portal.mp3", 0.5, 0.3);
             this.level = 3;
             document.body.style.background = `url("./assets/Images/achtergrond_level_3.png") no-repeat center center fixed`;
             document.body.style.backgroundSize = 'cover'
