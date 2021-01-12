@@ -5,10 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Main Menu</title>
     <link rel="stylesheet" href="./assets/css/style.css" />
+
   </head>
   <body>
     <div class="Menu" id="menu">
       <button><a href="game.html">START</button>
     </div>
+    <audio autoplay loop id="menuMusic">
+      <source src="./assets/Sounds/menu_beat.mp3"/>
+    </audio>
+    <script>
+      let music = document.getElementById("menuMusic");
+      music.volume = 0.1;
+    </script>
   </body>
 </html>

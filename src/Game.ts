@@ -36,7 +36,7 @@ class Game {
 
         this.endPortal = new EndPortal("./assets/Images/end_portal.png");
 
-        this.soundEffect("./assets/Sounds/Background_music.mp3", 0.5, 0.05);
+        this.soundEffect("./assets/Sounds/Background_music.mp3", 0.5, 0.2);
 
         this.score = 0;
         this.level = 0;
