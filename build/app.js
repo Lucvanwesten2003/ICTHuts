@@ -55,11 +55,7 @@ class Game {
         this.hengel = new Hengel(this.canvas.height / 2 - 60, 3, "./assets/Images/hook.png");
         this.netherPortal = new NetherPortal("./assets/Images/nether_portal.png");
         this.endPortal = new EndPortal("./assets/Images/end_portal.png");
-<<<<<<< HEAD
         this.soundEffect("./assets/Sounds/Background_music.mp3", 0.5, 0.3);
-=======
-        this.soundEffect("./assets/Sounds/Background_music.mp3", 0.5, 0.2);
->>>>>>> 29847419ca5d17b52cf83a675bffd0fcc85f2a09
         this.score = 0;
         this.level = 0;
         this.loop();
@@ -308,7 +304,7 @@ class Hengel {
         if (rocket.yPosition <= this.maxY && rocket._name == "aliveFish") {
             this.score++;
             this.checker = 0;
-            this.soundEffect("./assets/Sounds/we_hebben_hem.mp3", 1.2, 0.3);
+            this.soundEffect("./assets/Sounds/good_fish.mp3", 1.2, 0.3);
         }
         if (rocket.yPosition <= this.maxY && rocket._name == "deadFish") {
             this.checker = 0;
