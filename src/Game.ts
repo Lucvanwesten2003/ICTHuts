@@ -21,8 +21,6 @@ class Game {
         this.rockets = [];
         this.keyBoard = new KeyboardListener
 
-        console.log(this.rockets);
-
         this.player = new Player('Me',
             this.canvas.width / 2.25,
             this.canvas.height / 2 - 80,
@@ -54,7 +52,6 @@ class Game {
             this.makeFish()
             this.counter = 0;
         }
-        console.log(this.level)
         this.draw();
         this.move();
         this.drawHengel(this.ctx)
@@ -80,7 +77,6 @@ class Game {
                     Game.randomNumber(0, this.canvas.width - 200),
                     Game.randomNumber(this.player.yPosition + 200, this.canvas.height - 50),
                     Game.randomNumber(2, 5), "aliveFish", "./assets/Images/aliveFish.png"));
-                console.log("alvieFish");
             } else {
                 this.rockets.push(new Rocket('deadFish',
                     Game.randomNumber(0, this.canvas.width - 200),
@@ -174,7 +170,6 @@ class Game {
             document.body.style.background = `url("./assets/Images/achtergrond_level_2.png") no-repeat center center fixed`;
             document.body.style.backgroundSize = 'cover'
             this.player.xPosition = 0;
-            console.log("next level");
         }
         if (this.player.xPosition >= this.canvas.width - this.endPortal.image.width - this.player.image.width && this.level == 2) {
             this.soundEffect("./assets/Sounds/End_portal.mp3", 0.5, 0.3);
@@ -182,7 +177,6 @@ class Game {
             document.body.style.background = `url("./assets/Images/achtergrond_level_3.png") no-repeat center center fixed`;
             document.body.style.backgroundSize = 'cover'
             this.player.xPosition = 0;
-            console.log("next level");
         }
     } 
 

@@ -67,7 +67,6 @@ class Hengel {
                     rocket.speed = 0
                     this.catchedFish = rocket
                     this.checker++
-                    console.log("if activated")
                     this.player = player
                 }
             }
@@ -80,7 +79,6 @@ class Hengel {
     private updatePosition(rocket: Rocket, player: Player) {
         rocket.yPosition = this._yPosition;
         rocket.xPosition = player.xPosition + player.image.width - 50;
-        console.log(rocket.yPosition)
         if (rocket.yPosition <= this.maxY && rocket._name == "aliveFish") {
             this.score++
             this.checker = 0;
