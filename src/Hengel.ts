@@ -84,7 +84,7 @@ class Hengel {
         if (rocket.yPosition <= this.maxY && rocket._name == "aliveFish") {
             this.score++
             this.checker = 0;
-            this.soundEffect("./assets/Sounds/we_hebben_hem.mp3", 1.2, 0.3);
+            this.soundEffect("./assets/Sounds/good_fish", 1.2, 0.3);
         }
         if (rocket.yPosition <= this.maxY && rocket._name == "deadFish") {
             this.checker = 0;
