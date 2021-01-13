@@ -212,10 +212,10 @@ class Game {
         for (let index = 0; index < 1; index++) {
             let randomFish;
             if (this.special === false){
-                 randomFish = ['alive', 'dead'];
+                 randomFish = ['alive', 'dead', 'dead',];
             }
             if (this.special === true){
-                randomFish = ['alive', 'dead', 'special'];
+                randomFish = ['alive', 'dead', 'dead', 'dead', 'special'];
             }
             
             const randomElement = randomFish[Math.floor(Math.random() * randomFish.length)];
