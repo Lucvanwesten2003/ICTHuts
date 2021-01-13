@@ -31,12 +31,20 @@ class Hengel {
         return this._image;
     }
 
+    get _speed(): number {
+        return this.speed
+    }
+    
+    set _speed(speed : number){
+        this.speed = speed;
+    }
+
     public move(canvas: HTMLCanvasElement) {
         if (this.keyBoard.isKeyDown(KeyboardListener.KEY_UP) && this._yPosition > this.maxY) {
-            this._yPosition -= this.speed
+            this._yPosition -= this.speed;
         }
         if (this.keyBoard.isKeyDown(KeyboardListener.KEY_DOWN) && this._yPosition < canvas.height - 50) {
-            this._yPosition += this.speed
+            this._yPosition += this.speed;
         }
     }
 
