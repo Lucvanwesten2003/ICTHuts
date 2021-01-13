@@ -99,8 +99,8 @@ class Game {
                     this.Prompts.splice(0, 1);
                     this.Prompts.push(new CanvasElement("Potion prompt", 0, -200, "./assets/Images/SpeedPrompt.png"));
                     this.speedPopup = true;
-                    if (X > 0.439 && X < 0.473 && Y > 0.368 && Y < 0.434 && this.speedPotion === false && this.hengel._score >= 1) {
-                        this.hengel._score = this.hengel._score - 1;
+                    if (X > 0.439 && X < 0.473 && Y > 0.368 && Y < 0.434 && this.speedPotion === false && this.hengel._score >= 10) {
+                        this.hengel._score = this.hengel._score - 10;
                         this.speedPotion = true;
                         this.player.speed = this.player.speed * 2;
                         this.hengel._speed = this.hengel._speed * 2;
