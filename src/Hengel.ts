@@ -11,6 +11,7 @@ class Hengel {
     private catchedFish: Rocket;
     private checker: number = 0;
     private player: Player;
+    private game: Game;
 
     public constructor(yPos: number, speed: number, image: string) {
         this.maxY = yPos
@@ -53,8 +54,8 @@ class Hengel {
     /**
 * Method to determine of the player is colliding with a rocket
 */
-    public hengelCollidesWithFish(rockets: Rocket[], player: Player) {
-        console.log(this.maxY)
+    public hengelCollidesWithFish(rockets: Rocket[], player: Player, double: boolean) {
+        // console.log(this.maxY)
         rockets.forEach((rocket, index) => {
             if (rocket.yPosition <= this.maxY) {
                 rockets.splice(index, 1)
@@ -67,26 +68,45 @@ class Hengel {
                     rocket.speed = 0
                     this.catchedFish = rocket
                     this.checker++
+                    console.log("if activated")
                     this.player = player
                 }
             }
         })
         if (this.checker === 1) {
-            this.updatePosition(this.catchedFish, this.player);
+            this.updatePosition(this.catchedFish, this.player, double);
         }
     }
 
-    private updatePosition(rocket: Rocket, player: Player) {
+    private updatePosition(rocket: Rocket, player: Player, double: boolean) {
         rocket.yPosition = this._yPosition;
         rocket.xPosition = player.xPosition + player.image.width - 50;
+        console.log(rocket.yPosition)
         if (rocket.yPosition <= this.maxY && rocket._name == "aliveFish") {
-            this.score++
+            if (double === true){
+                this.score++
+                this.score++
+            } 
+            if (double === false){
+                this.score++
+            }
             this.checker = 0;
             this.soundEffect("./assets/Sounds/good_fish.mp3", 1.2, 0.3);
         }
         if (rocket.yPosition <= this.maxY && rocket._name == "deadFish") {
             this.checker = 0;
             this.soundEffect("./assets/Sounds/oof_sound.mp3", 0.5, 0.5);
+        }
+        if (rocket.yPosition <= this.maxY && rocket._name == "specialFish") {
+            if (double === true){
+                this.score++
+                this.score++
+            } 
+            if (double === false){
+                this.score++
+            }
+            this.checker = 0;
+            this.soundEffect("./assets/Sounds/good_fish.mp3", 1, 0.3);
         }
     } 
 
@@ -99,6 +119,10 @@ class Hengel {
 
     get _score(): number {
         return this.score;
+    }
+
+    set _score(score: number){
+        this.score = score;
     }
 
 }
