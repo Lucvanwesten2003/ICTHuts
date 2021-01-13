@@ -55,6 +55,7 @@ class Game {
      */
     public loop = () => {
         this.draw();
+        this.shop.kauloShop(this.hengel, this.player);
         if (this.shop._shop === false) {
             this.newLevel();
             this.score++;
@@ -207,6 +208,7 @@ class Game {
             document.body.style.background = `url("./assets/Images/achtergrond_level_1.png") no-repeat center center fixed`;
             document.body.style.backgroundSize = 'cover'
         } if (this.level === 2) {
+            this.neededPoints = 75;
             document.body.style.background = `url("./assets/Images/achtergrond_level_2.png") no-repeat center center fixed`;
             document.body.style.backgroundSize = 'cover'
         } if (this.level === 3) {

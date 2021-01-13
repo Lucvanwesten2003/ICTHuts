@@ -8,6 +8,8 @@ class Shop {
     private special: boolean;
     private speedPotion: boolean;
     private shop: boolean;
+    private hengel: Hengel;
+    private player: Player;
 
     public constructor() {
         this.Prompts = [];
@@ -21,6 +23,11 @@ class Shop {
         this.speedPotion = false;
 
         document.addEventListener("click", this.mouseHandler);
+    }
+
+    public kauloShop(hengel: Hengel, player: Player) {
+        this.hengel = hengel;
+        this.player = player;
     }
 
     private mouseHandler = (event: MouseEvent) => {
@@ -52,12 +59,11 @@ class Shop {
                     )
                 );
                 this.speedPopup = true;
-                if(X > 0.439 && X < 0.473 && Y > 0.368 && Y < 0.434 && this.speedPotion === false && this.hengel._score >= 1){
+                if(X > 0.439 && X < 0.473 && Y > 0.368 && Y < 0.434 && this.speedPotion === false && this.hengel._score >= 10){
                     this.hengel._score = this.hengel._score - 10;
                     this.speedPotion = true;
                     this.player.speed = this.player.speed * 2;
                     this.hengel._speed = this.hengel._speed * 2;
-                    console.log("izjen")
                     this.Powerups.push(
                         new CanvasElement(
                             "Speed Power",
