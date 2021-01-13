@@ -12,6 +12,7 @@ class Hengel {
     private checker: number = 0;
     private player: Player;
     private game: Game;
+    
 
     public constructor(yPos: number, speed: number, image: string) {
         this.maxY = yPos
@@ -53,7 +54,7 @@ class Hengel {
 * @param {HTMLImageElement} source
 * @return HTMLImageElement - returns an image
 */
-    protected loadNewImage(source: string): HTMLImageElement {
+    private loadNewImage(source: string): HTMLImageElement {
         const img = new Image();
         img.src = source;
         return img;

@@ -56,7 +56,8 @@ class EndPortal extends Portal {
 class Game {
     constructor(canvasId) {
         this.loop = () => {
-            if (this.shop === false) {
+            this.draw();
+            if (this.shop._shop === false) {
                 this.newLevel();
                 this.score++;
                 this.counter++;
@@ -69,7 +70,7 @@ class Game {
                 this.drawHengel(this.ctx);
                 this.drawPortal(this.ctx);
                 this.hengel.move(this.canvas);
-                this.hengel.hengelCollidesWithFish(this.rockets, this.player, this.double);
+                this.hengel.hengelCollidesWithFish(this.rockets, this.player, this.shop._double);
                 this.player.move(this.canvas);
                 if (this.keyBoard.isKeyDown(KeyboardListener.KEY_F11)) {
                     location.reload();
@@ -80,93 +81,13 @@ class Game {
             }
             requestAnimationFrame(this.loop);
         };
-        this.mouseHandler = (event) => {
-            let X = event.clientX / window.innerWidth;
-            let Y = event.clientY / window.innerHeight;
-            console.log(X);
-            console.log(Y);
-            if (X > 0 && X < 0.135 && Y > 0.138 && Y < 0.416) {
-                this.shop = true;
-                document.body.style.background = `url("./assets/Images/The Shop.png") no-repeat center center fixed`;
-                document.body.style.backgroundSize = 'cover';
-            }
-            if (this.shop === true) {
-                if (X > 0.829 && X < 0.964 && Y > 0.051 && Y < 0.312) {
-                    this.Prompts.splice(0, 1);
-                    this.shop = false;
-                }
-                if (this.twoXPopup === false && this.specialfishPopup === false && X > 0.321 && X < 0.430 && Y > 0.644 && Y < 0.722 || this.speedPopup === true) {
-                    this.Prompts.splice(0, 1);
-                    this.Prompts.push(new CanvasElement("Potion prompt", 0, -200, "./assets/Images/SpeedPrompt.png"));
-                    this.speedPopup = true;
-                    if (X > 0.439 && X < 0.473 && Y > 0.368 && Y < 0.434 && this.speedPotion === false && this.hengel._score >= 10) {
-                        this.hengel._score = this.hengel._score - 10;
-                        this.speedPotion = true;
-                        this.player.speed = this.player.speed * 2;
-                        this.hengel._speed = this.hengel._speed * 2;
-                        this.Powerups.push(new CanvasElement("Speed Power", 0, 0, "./assets/Images/SpeedPower.png"));
-                        this.Prompts.splice(0, 1);
-                        this.speedPopup = false;
-                    }
-                    if (X > 0.516 && X < 0.551 && Y > 0.370 && Y < 0.432) {
-                        console.log("no");
-                        this.Prompts.splice(0, 1);
-                        this.speedPopup = false;
-                    }
-                }
-                if (this.speedPopup === false && this.specialfishPopup === false && X > 0.445 && X < 0.552 && Y > 0.643 && Y < 724 || this.twoXPopup === true) {
-                    this.Prompts.splice(0, 1);
-                    this.Prompts.push(new CanvasElement("two X Prompt", 0, -200, "./assets/Images/DoublePrompt.png"));
-                    this.twoXPopup = true;
-                    if (X > 0.441 && X < 0.475 && Y > 0.371 && Y < 0.436 && this.double === false && this.hengel._score >= 15) {
-                        this.hengel._score = this.hengel._score - 15;
-                        this.double = true;
-                        this.Powerups.push(new CanvasElement("Double Points Power", 0, 0, "./assets/Images/DoublePointsPower.png"));
-                        this.Prompts.splice(0, 1);
-                        this.twoXPopup = false;
-                    }
-                    if (X > 0.518 && X < 0.553 && Y > 0.371 && Y < 0.432) {
-                        console.log("no");
-                        this.Prompts.splice(0, 1);
-                        this.twoXPopup = false;
-                    }
-                }
-                if (this.speedPopup === false && this.twoXPopup === false && X > 0.574 && X < 0.681 && Y > 0.644 && Y < 0.721 || this.specialfishPopup === true) {
-                    this.Prompts.splice(0, 1);
-                    this.Prompts.push(new CanvasElement("Special Fish Prompt", 0, -200, "./assets/Images/SpecialPrompt.png"));
-                    this.specialfishPopup = true;
-                    if (X > 0.442 && X < 0.471 && Y > 0.362 && Y < 0.421 && this.special === false && this.hengel._score >= 20) {
-                        this.hengel._score = this.hengel._score - 20;
-                        this.special = true;
-                        this.Powerups.push(new CanvasElement("Special Fish Power", 0, 0, "./assets/Images/SpecialFishPower.png"));
-                        this.Prompts.splice(0, 1);
-                        this.specialfishPopup = false;
-                    }
-                    if (X > 0.511 && X < 0.541 && Y > 0.360 && Y < 0.416) {
-                        console.log("no");
-                        this.Prompts.splice(0, 1);
-                        this.specialfishPopup = false;
-                    }
-                }
-            }
-            this.draw();
-        };
         this.canvas = canvasId;
         this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight;
         this.ctx = this.canvas.getContext("2d");
         this.rockets = [];
-        this.Prompts = [];
-        this.Powerups = [];
-        this.speedPopup = false;
-        this.twoXPopup = false;
-        this.specialfishPopup = false;
-        this.shop = false;
-        this.double = false;
-        this.special = false;
-        this.speedPotion = false;
         this.keyBoard = new KeyboardListener;
-        document.addEventListener("click", this.mouseHandler);
+        this.shop = new Shop;
         console.log(this.rockets);
         this.player = new Player('Me', this.canvas.width / 2.25, this.canvas.height / 2 - 80, 5, "./assets/Images/mcboot.png");
         console.log(this.player);
@@ -182,10 +103,10 @@ class Game {
     makeFish() {
         for (let index = 0; index < 1; index++) {
             let randomFish;
-            if (this.special === false) {
+            if (this.shop._special === false) {
                 randomFish = ['alive', 'dead', 'dead'];
             }
-            if (this.special === true) {
+            if (this.shop._special === true) {
                 randomFish = ['alive', 'dead', 'dead', 'dead', 'special'];
             }
             const randomElement = randomFish[Math.floor(Math.random() * randomFish.length)];
@@ -216,9 +137,9 @@ class Game {
         ctx.stroke();
     }
     drawPortal(ctx) {
-        if (this.shop === false) {
+        if (this.shop._shop === false) {
             if (this.level === 1) {
-                if (this.hengel._score >= 25) {
+                if (this.hengel._score >= 50) {
                     ctx.drawImage(this.netherPortal.image, this.canvas.width - this.netherPortal.image.width, this.player.yPosition - 100);
                     this.portalCollision();
                 }
@@ -233,19 +154,20 @@ class Game {
     }
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        if (this.shop === true) {
-            this.Prompts.forEach((element) => {
+        if (this.shop._shop === true) {
+            this.shop._Prompts.forEach((element) => {
+                element.draw(this.ctx);
+            });
+            this.writeTextToCanvas(this.ctx, `You have caught ${this.hengel._score} fish`, 40, this.canvas.width / 2, 40);
+        }
+        if (this.shop._shop === true) {
+            this.shop._Powerups.forEach((element) => {
                 element.draw(this.ctx);
             });
         }
-        this.writeTextToCanvas(this.ctx, `Score is: ${this.hengel._score}`, 40, this.canvas.width / 2, 40);
-        if (this.shop === true) {
-            this.Powerups.forEach((element) => {
-                element.draw(this.ctx);
-            });
-        }
-        if (this.shop === false) {
+        if (this.shop._shop === false) {
             this.player.draw(this.ctx);
+            this.writeTextToCanvas(this.ctx, `Score: ${this.hengel._score} / ${this.neededPoints}`, 40, this.canvas.width / 2, 40);
             if (this.rockets.length != 0) {
                 this.rockets.forEach((rocket) => {
                     rocket.draw(this.ctx);
@@ -255,7 +177,7 @@ class Game {
     }
     newLevel() {
         if (this.level === 1) {
-            this.level = 1;
+            this.neededPoints = 50;
             document.body.style.background = `url("./assets/Images/achtergrond_level_1.png") no-repeat center center fixed`;
             document.body.style.backgroundSize = 'cover';
         }
@@ -560,6 +482,106 @@ class Rocket extends GameItem {
     ;
     draw(ctx) {
         ctx.drawImage(this._image, this._xPosition, this._yPosition);
+    }
+}
+class Shop {
+    constructor() {
+        this.Prompts = [];
+        this.Powerups = [];
+        this.speedPopup = false;
+        this.twoXPopup = false;
+        this.specialfishPopup = false;
+        this.shop = false;
+        this.double = false;
+        this.special = false;
+        this.speedPotion = false;
+    }
+    get _shop() {
+        return this.shop;
+    }
+    get _special() {
+        return this.special;
+    }
+    get _double() {
+        return this.double;
+    }
+    get _Prompts() {
+        return this.Prompts;
+    }
+    get _Powerups() {
+        return this.Powerups;
+    }
+    mouseHandler(event) {
+        this.x = event.clientX / window.innerWidth;
+        this.y = event.clientY / window.innerHeight;
+    }
+    updateShop(hengel, player) {
+        if (this.x > 0 && this.x < 0.135 && this.y > 0.138 && this.y < 0.416) {
+            this.shop = true;
+            document.body.style.background = `url("./assets/Images/The Shop.png") no-repeat center center fixed`;
+            document.body.style.backgroundSize = 'cover';
+        }
+        if (this.shop === true) {
+            if (this.x > 0.829 && this.x < 0.964 && this.y > 0.051 && this.y < 0.312) {
+                console.log(hengel._score);
+                this.Prompts.splice(0, 1);
+                this.shop = false;
+            }
+            if (this.twoXPopup === false && this.specialfishPopup === false && this.x > 0.321 && this.x < 0.430 && this.y > 0.644 && this.y < 0.722 || this.speedPopup === true) {
+                this.Prompts.splice(0, 1);
+                this.Prompts.push(new CanvasElement("Potion prompt", 0, -200, "./assets/Images/SpeedPrompt.png"));
+                this.speedPopup = true;
+                if (this.x > 0.439 && this.x < 0.473 && this.y > 0.368 && this.y < 0.434 && this.speedPotion === false && hengel._score >= 1) {
+                    hengel._score = hengel._score - 10;
+                    this.speedPotion = true;
+                    player.speed = player.speed * 2;
+                    hengel._speed = hengel._speed * 2;
+                    console.log("izjen");
+                    this.Powerups.push(new CanvasElement("Speed Power", 0, 0, "./assets/Images/SpeedPower.png"));
+                    this.Prompts.splice(0, 1);
+                    this.speedPopup = false;
+                }
+                if (this.x > 0.516 && this.x < 0.551 && this.y > 0.370 && this.y < 0.432) {
+                    console.log("no");
+                    this.Prompts.splice(0, 1);
+                    this.speedPopup = false;
+                }
+            }
+            if (this.speedPopup === false && this.specialfishPopup === false && this.x > 0.445 && this.x < 0.552 && this.y > 0.643 && this.y < 724 || this.twoXPopup === true) {
+                this.Prompts.splice(0, 1);
+                this.Prompts.push(new CanvasElement("two this.x Prompt", 0, -200, "./assets/Images/DoublePrompt.png"));
+                this.twoXPopup = true;
+                if (this.x > 0.441 && this.x < 0.475 && this.y > 0.371 && this.y < 0.436 && this.double === false && hengel._score >= 15) {
+                    hengel._score = hengel._score - 15;
+                    this.double = true;
+                    this.Powerups.push(new CanvasElement("Double Points Power", 0, 0, "./assets/Images/DoublePointsPower.png"));
+                    this.Prompts.splice(0, 1);
+                    this.twoXPopup = false;
+                }
+                if (this.x > 0.518 && this.x < 0.553 && this.y > 0.371 && this.y < 0.432) {
+                    console.log("no");
+                    this.Prompts.splice(0, 1);
+                    this.twoXPopup = false;
+                }
+            }
+            if (this.speedPopup === false && this.twoXPopup === false && this.x > 0.574 && this.x < 0.681 && this.y > 0.644 && this.y < 0.721 || this.specialfishPopup === true) {
+                this.Prompts.splice(0, 1);
+                this.Prompts.push(new CanvasElement("Special Fish Prompt", 0, -200, "./assets/Images/SpecialPrompt.png"));
+                this.specialfishPopup = true;
+                if (this.x > 0.442 && this.x < 0.471 && this.y > 0.362 && this.y < 0.421 && this.special === false && hengel._score >= 20) {
+                    hengel._score = hengel._score - 20;
+                    this.special = true;
+                    this.Powerups.push(new CanvasElement("Special Fish Power", 0, 0, "./assets/Images/SpecialFishPower.png"));
+                    this.Prompts.splice(0, 1);
+                    this.specialfishPopup = false;
+                }
+                if (this.x > 0.511 && this.x < 0.541 && this.y > 0.360 && this.y < 0.416) {
+                    console.log("no");
+                    this.Prompts.splice(0, 1);
+                    this.specialfishPopup = false;
+                }
+            }
+        }
     }
 }
 let init = () => {
