@@ -159,16 +159,25 @@ class Game {
             this.shop._Prompts.forEach((element) => {
                 element.draw(this.ctx);
             });
-            this.writeTextToCanvas(this.ctx, `You have caught ${this.hengel._score} fish`, 40, this.canvas.width / 2, 40);
+            this.writeTextToCanvas(this.ctx, `You have ${this.hengel._score} fish`, 40, this.canvas.width / 2, 40);
         }
         if (this.shop._shop === true) {
             this.shop._Powerups.forEach((element) => {
                 element.draw(this.ctx);
             });
         }
-        if (this.shop._shop === false) {
+        if (this.shop._shop === false && this.level < 3) {
             this.player.draw(this.ctx);
             this.writeTextToCanvas(this.ctx, `Score: ${this.hengel._score} / ${this.neededPoints}`, 40, this.canvas.width / 2, 40);
+            if (this.rockets.length != 0) {
+                this.rockets.forEach((rocket) => {
+                    rocket.draw(this.ctx);
+                });
+            }
+        }
+        if (this.level === 3 && this.shop._shop === false) {
+            this.player.draw(this.ctx);
+            this.writeTextToCanvas(this.ctx, `Score: ${this.hengel._score}`, 40, this.canvas.width / 2, 40);
             if (this.rockets.length != 0) {
                 this.rockets.forEach((rocket) => {
                     rocket.draw(this.ctx);

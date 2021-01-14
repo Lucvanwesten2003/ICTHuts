@@ -167,7 +167,7 @@ class Game {
             });
             this.writeTextToCanvas(
                 this.ctx,
-                `You have caught ${this.hengel._score} fish`,
+                `You have ${this.hengel._score} fish`,
                 40,
                 this.canvas.width / 2,
                 40,
@@ -179,12 +179,34 @@ class Game {
             });
         }
 
-        if (this.shop._shop === false) {
+        if (this.shop._shop === false && this.level < 3) {
             this.player.draw(this.ctx);
 
             this.writeTextToCanvas(
                 this.ctx,
                 `Score: ${this.hengel._score} / ${this.neededPoints}`,
+                40,
+                this.canvas.width / 2,
+                40,
+            );
+
+            // when there are elements in the rocket array
+            if (this.rockets.length != 0) {
+                // clear the canvas
+
+                // draw each rocket
+                this.rockets.forEach((rocket) => {
+                    rocket.draw(this.ctx)
+                });
+            }
+        }
+
+        if(this.level === 3 && this.shop._shop === false) {
+            this.player.draw(this.ctx);
+
+            this.writeTextToCanvas(
+                this.ctx,
+                `Score: ${this.hengel._score}`,
                 40,
                 this.canvas.width / 2,
                 40,
