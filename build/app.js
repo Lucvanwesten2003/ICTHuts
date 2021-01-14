@@ -553,7 +553,7 @@ class Shop {
                     this.Prompts.splice(0, 1);
                     this.Prompts.push(new CanvasElement("Special Fish Prompt", 0, -200, "./assets/Images/SpecialPrompt.png"));
                     this.specialfishPopup = true;
-                    if (X > 0.442 && X < 0.471 && Y > 0.362 && Y < 0.421 && this.special === false && this.hengel._score >= 20) {
+                    if (X > 0.442 && X < 0.471 && Y > 0.362 && Y < 0.421 && this.special === false && this.hengel._score >= 2) {
                         this.hengel._score = this.hengel._score - 20;
                         this.special = true;
                         this.Powerups.push(new CanvasElement("Special Fish Power", 0, 0, "./assets/Images/SpecialFishPower.png"));

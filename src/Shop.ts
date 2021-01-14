@@ -123,7 +123,7 @@ class Shop {
                     )
                 )
                 this.specialfishPopup = true;
-                if(X > 0.442 && X < 0.471 && Y > 0.362 && Y < 0.421 && this.special === false && this.hengel._score >= 20){
+                if(X > 0.442 && X < 0.471 && Y > 0.362 && Y < 0.421 && this.special === false && this.hengel._score >= 2){
                     this.hengel._score = this.hengel._score - 20;
                     this.special = true;
                     this.Powerups.push(
