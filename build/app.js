@@ -140,13 +140,13 @@ class Game {
     drawPortal(ctx) {
         if (this.shop._shop === false) {
             if (this.level === 1) {
-                if (this.hengel._score >= 5) {
+                if (this.hengel._score >= 50) {
                     ctx.drawImage(this.netherPortal.image, this.canvas.width - this.netherPortal.image.width, this.player.yPosition - 100);
                     this.portalCollision();
                 }
             }
             if (this.level === 2) {
-                if (this.hengel._score >= 7) {
+                if (this.hengel._score >= 75) {
                     ctx.drawImage(this.endPortal.image, this.canvas.width - this.endPortal.image.width, this.player.yPosition - 120);
                     this.portalCollision();
                 }
@@ -531,8 +531,8 @@ class Shop {
                     this.Prompts.splice(0, 1);
                     this.Prompts.push(new CanvasElement("Potion prompt", 0, -200, "./assets/Images/SpeedPrompt.png"));
                     this.speedPopup = true;
-                    if (X > 0.439 && X < 0.473 && Y > 0.368 && Y < 0.434 && this.speedPotion === false && this.hengel._score >= 1) {
-                        this.hengel._score = this.hengel._score - 1;
+                    if (X > 0.439 && X < 0.473 && Y > 0.368 && Y < 0.434 && this.speedPotion === false && this.hengel._score >= 10) {
+                        this.hengel._score = this.hengel._score - 10;
                         this.speedPotion = true;
                         this.player.speed = this.player.speed * 2;
                         this.hengel._speed = this.hengel._speed * 2;
@@ -550,8 +550,8 @@ class Shop {
                     this.Prompts.splice(0, 1);
                     this.Prompts.push(new CanvasElement("two X Prompt", 0, -200, "./assets/Images/DoublePrompt.png"));
                     this.twoXPopup = true;
-                    if (X > 0.441 && X < 0.475 && Y > 0.371 && Y < 0.436 && this.double === false && this.hengel._score >= 1) {
-                        this.hengel._score = this.hengel._score - 1;
+                    if (X > 0.441 && X < 0.475 && Y > 0.371 && Y < 0.436 && this.double === false && this.hengel._score >= 15) {
+                        this.hengel._score = this.hengel._score - 15;
                         this.double = true;
                         this.Powerups.push(new CanvasElement("Double Points Power", 0, 0, "./assets/Images/DoublePointsPower.png"));
                         this.Prompts.splice(0, 1);
@@ -567,8 +567,8 @@ class Shop {
                     this.Prompts.splice(0, 1);
                     this.Prompts.push(new CanvasElement("Special Fish Prompt", 0, -200, "./assets/Images/SpecialPrompt.png"));
                     this.specialfishPopup = true;
-                    if (X > 0.442 && X < 0.471 && Y > 0.362 && Y < 0.421 && this.special === false && this.hengel._score >= 2) {
-                        this.hengel._score = this.hengel._score - 2;
+                    if (X > 0.442 && X < 0.471 && Y > 0.362 && Y < 0.421 && this.special === false && this.hengel._score >= 20) {
+                        this.hengel._score = this.hengel._score - 20;
                         this.special = true;
                         this.Powerups.push(new CanvasElement("Special Fish Power", 0, 0, "./assets/Images/SpecialFishPower.png"));
                         this.Prompts.splice(0, 1);
