@@ -57,7 +57,7 @@ class Game {
     constructor(canvasId) {
         this.loop = () => {
             this.draw();
-            this.shop.kauloShop(this.hengel, this.player);
+            this.shop.updateShop(this.hengel, this.player);
             if (this.shop._shop === false) {
                 this.newLevel();
                 this.score++;
@@ -140,13 +140,13 @@ class Game {
     drawPortal(ctx) {
         if (this.shop._shop === false) {
             if (this.level === 1) {
-                if (this.hengel._score >= 50) {
+                if (this.hengel._score >= 5) {
                     ctx.drawImage(this.netherPortal.image, this.canvas.width - this.netherPortal.image.width, this.player.yPosition - 100);
                     this.portalCollision();
                 }
             }
             if (this.level === 2) {
-                if (this.hengel._score >= 75) {
+                if (this.hengel._score >= 7) {
                     ctx.drawImage(this.endPortal.image, this.canvas.width - this.endPortal.image.width, this.player.yPosition - 120);
                     this.portalCollision();
                 }
@@ -210,7 +210,7 @@ class Game {
             document.body.style.backgroundSize = 'cover';
             this.player.xPosition = 0;
             this.hengel._score = 0;
-            console.log("next level");
+            this.resetPowerUps();
         }
         if (this.player.xPosition >= this.canvas.width - this.endPortal.image.width - this.player.image.width && this.level == 2) {
             this.soundEffect("./assets/Sounds/End_portal.mp3", 0.5, 0.3);
@@ -219,7 +219,21 @@ class Game {
             document.body.style.backgroundSize = 'cover';
             this.player.xPosition = 0;
             this.hengel._score = 0;
-            console.log("next level");
+            this.resetPowerUps();
+        }
+    }
+    resetPowerUps() {
+        this.shop._Powerups.splice(0, 3);
+        if (this.shop._speedPotion === true) {
+            this.shop._speedPotion = false;
+            this.player.speed = this.player.speed / 2;
+            this.hengel._speed = this.hengel._speed / 2;
+        }
+        if (this.shop._double === true) {
+            this.shop._double = false;
+        }
+        if (this.shop._special === true) {
+            this.shop._special = false;
         }
     }
     soundEffect(url, time, volume) {
@@ -517,8 +531,8 @@ class Shop {
                     this.Prompts.splice(0, 1);
                     this.Prompts.push(new CanvasElement("Potion prompt", 0, -200, "./assets/Images/SpeedPrompt.png"));
                     this.speedPopup = true;
-                    if (X > 0.439 && X < 0.473 && Y > 0.368 && Y < 0.434 && this.speedPotion === false && this.hengel._score >= 10) {
-                        this.hengel._score = this.hengel._score - 10;
+                    if (X > 0.439 && X < 0.473 && Y > 0.368 && Y < 0.434 && this.speedPotion === false && this.hengel._score >= 1) {
+                        this.hengel._score = this.hengel._score - 1;
                         this.speedPotion = true;
                         this.player.speed = this.player.speed * 2;
                         this.hengel._speed = this.hengel._speed * 2;
@@ -536,8 +550,8 @@ class Shop {
                     this.Prompts.splice(0, 1);
                     this.Prompts.push(new CanvasElement("two X Prompt", 0, -200, "./assets/Images/DoublePrompt.png"));
                     this.twoXPopup = true;
-                    if (X > 0.441 && X < 0.475 && Y > 0.371 && Y < 0.436 && this.double === false && this.hengel._score >= 15) {
-                        this.hengel._score = this.hengel._score - 15;
+                    if (X > 0.441 && X < 0.475 && Y > 0.371 && Y < 0.436 && this.double === false && this.hengel._score >= 1) {
+                        this.hengel._score = this.hengel._score - 1;
                         this.double = true;
                         this.Powerups.push(new CanvasElement("Double Points Power", 0, 0, "./assets/Images/DoublePointsPower.png"));
                         this.Prompts.splice(0, 1);
@@ -554,7 +568,7 @@ class Shop {
                     this.Prompts.push(new CanvasElement("Special Fish Prompt", 0, -200, "./assets/Images/SpecialPrompt.png"));
                     this.specialfishPopup = true;
                     if (X > 0.442 && X < 0.471 && Y > 0.362 && Y < 0.421 && this.special === false && this.hengel._score >= 2) {
-                        this.hengel._score = this.hengel._score - 20;
+                        this.hengel._score = this.hengel._score - 2;
                         this.special = true;
                         this.Powerups.push(new CanvasElement("Special Fish Power", 0, 0, "./assets/Images/SpecialFishPower.png"));
                         this.Prompts.splice(0, 1);
@@ -579,7 +593,7 @@ class Shop {
         this.speedPotion = false;
         document.addEventListener("click", this.mouseHandler);
     }
-    kauloShop(hengel, player) {
+    updateShop(hengel, player) {
         this.hengel = hengel;
         this.player = player;
     }
@@ -597,6 +611,18 @@ class Shop {
     }
     get _Powerups() {
         return this.Powerups;
+    }
+    get _speedPotion() {
+        return this.speedPotion;
+    }
+    set _speedPotion(speedPotion) {
+        this.speedPotion = speedPotion;
+    }
+    set _double(double) {
+        this.double = double;
+    }
+    set _special(special) {
+        this.special = special;
     }
 }
 let init = () => {

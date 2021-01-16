@@ -25,7 +25,7 @@ class Shop {
         document.addEventListener("click", this.mouseHandler);
     }
 
-    public kauloShop(hengel: Hengel, player: Player) {
+    public updateShop(hengel: Hengel, player: Player) {
         this.hengel = hengel;
         this.player = player;
     }
@@ -164,5 +164,21 @@ class Shop {
 
     get _Powerups(): CanvasElements[] {
         return this.Powerups;
+    }
+
+    get _speedPotion(): boolean {
+        return this.speedPotion;
+    }
+
+    set _speedPotion(speedPotion: boolean) {
+        this.speedPotion = speedPotion;
+    }
+
+    set _double(double: boolean) {
+        this.double = double;
+    }
+
+    set _special(special: boolean) {
+        this.special = special;
     }
 }

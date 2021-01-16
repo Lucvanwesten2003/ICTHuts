@@ -35,8 +35,6 @@ class Game {
             "./assets/Images/mcboot.png");
         console.log(this.player);
 
-        //this.shop = new Shop;
-
         this.hengel = new Hengel(this.canvas.height / 2 - 60, 3, "./assets/Images/hook.png")
 
         this.netherPortal = new NetherPortal("./assets/Images/nether_portal.png");
@@ -55,7 +53,7 @@ class Game {
      */
     public loop = () => {
         this.draw();
-        this.shop.kauloShop(this.hengel, this.player);
+        this.shop.updateShop(this.hengel, this.player);
         if (this.shop._shop === false) {
             this.newLevel();
             this.score++;
@@ -249,7 +247,7 @@ class Game {
             document.body.style.backgroundSize = 'cover'
             this.player.xPosition = 0;
             this.hengel._score = 0;
-            console.log("next level");
+            this.resetPowerUps();
         }
         if (this.player.xPosition >= this.canvas.width - this.endPortal.image.width - this.player.image.width && this.level == 2) {
             this.soundEffect("./assets/Sounds/End_portal.mp3", 0.5, 0.3);
@@ -258,7 +256,22 @@ class Game {
             document.body.style.backgroundSize = 'cover'
             this.player.xPosition = 0;
             this.hengel._score = 0;
-            console.log("next level");
+            this.resetPowerUps();
+        }
+    }
+
+    private resetPowerUps() {
+        this.shop._Powerups.splice(0, 3);
+        if (this.shop._speedPotion === true) {
+            this.shop._speedPotion = false;
+            this.player.speed = this.player.speed / 2;
+            this.hengel._speed = this.hengel._speed / 2;
+        }
+        if (this.shop._double === true) {
+            this.shop._double = false;
+        }
+        if (this.shop._special === true) {
+            this.shop._special = false;          
         }
     }
 
