@@ -33,7 +33,7 @@ class Game {
 
         this.quizArray = [
             "quiz1.png", "quiz2.png", "quiz3.png", "quiz4.png", "quiz5.png", "quiz6.png", "quiz7.png", "quiz8.png", "quiz9.png", "quiz10.png", "quiz11.png", "quiz12.png",
-            "quiz7.png", "quiz13.png", "quiz14.png", "quiz15.png", "quiz16.png", "Phishing1.png", "Phishing2.png", "Phishing3.png", "Phishing4.png"
+            "quiz7.png", "quiz13.png", "quiz14.png", "quiz15.png", "quiz16.png", "Phishing1.png", "Phishing2.png", "Phishing3.png", "Phishing4.png" 
         ];
 
         this.player = new Player('Me',
