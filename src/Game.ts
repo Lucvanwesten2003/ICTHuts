@@ -1,5 +1,5 @@
 class Game {
-    private rockets: Rocket[];
+    private fish: Fish[];
     private player: Player;
     private canvas: HTMLCanvasElement;
     private score: number;
@@ -7,12 +7,15 @@ class Game {
     private counter: number;
     private keyBoard: KeyboardListener;
     private hengel: Hengel;
-    private catchedFish: Rocket;
     private netherPortal: Portal;
     private endPortal: Portal;
     private level: number;
     private shop: Shop;
     private neededPoints: number;
+    private quizArray: string[];
+    private selectedImg: string;
+    private delayCounter: number;
+    private startCounter: boolean;
 
     public constructor(canvasId: HTMLCanvasElement) {
         // Construct all of the canvas
@@ -20,20 +23,24 @@ class Game {
         this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight;
         this.ctx = this.canvas.getContext("2d");
-        this.rockets = [];
+        this.fish = [];
 
         this.keyBoard = new KeyboardListener
 
         this.shop = new Shop;
 
-        console.log(this.rockets);
+        document.addEventListener("click", this.quizButtons);
+
+        this.quizArray = [
+            "quiz1.png", "quiz2.png", "quiz3.png", "quiz4.png", "quiz5.png", "quiz6.png", "quiz7.png", "quiz8.png", "quiz9.png", "quiz10.png", "quiz11.png", "quiz12.png",
+            "quiz7.png", "quiz13.png", "quiz14.png", "quiz15.png", "quiz16.png", "Phishing1.png", "Phishing2.png", "Phishing3.png", "Phishing4.png"
+        ];
 
         this.player = new Player('Me',
             this.canvas.width / 2.25,
             this.canvas.height / 2 - 80,
             5,
             "./assets/Images/mcboot.png");
-        console.log(this.player);
 
         this.hengel = new Hengel(this.canvas.height / 2 - 60, 3, "./assets/Images/hook.png")
 
@@ -47,14 +54,30 @@ class Game {
         this.level = 1;
         this.loop();
         this.counter = 0;
+        this.delayCounter = 0;
+        this.startCounter = false;
     }
+
     /**
      * Method for the Game Loop
      */
     public loop = () => {
+        console.log(this.hengel._quizChecker)
         this.draw();
         this.shop.updateShop(this.hengel, this.player);
         if (this.shop._shop === false) {
+        if (this.hengel._quizChecker == 1) {
+            this.imgRandom();
+        }
+        if (this.startCounter === true) {
+            this.delayCounter++;
+        }
+        if (this.delayCounter > 200) {
+            this.hengel._quizChecker = 0;
+            this.delayCounter = 0;
+            this.startCounter = false;
+        }
+        if (this.hengel._quizChecker == 0) {
             this.newLevel();
             this.score++;
             this.counter++;
@@ -62,22 +85,126 @@ class Game {
                 this.makeFish()
                 this.counter = 0;
             }
-            this.move();
-            this.draw();
-            this.drawHengel(this.ctx)
-            this.drawPortal(this.ctx)
-            this.hengel.move(this.canvas)
-            this.hengel.hengelCollidesWithFish(this.rockets, this.player, this.shop._double);
-            this.player.move(this.canvas);
-            if (this.keyBoard.isKeyDown(KeyboardListener.KEY_F11)) {
-                location.reload()
-            }
-            if (this.keyBoard.isKeyDown(KeyboardListener.KEY_F5)) {
-                window.location.href = 'https://lucvanwesten2003.github.io/ICTHuts/';
+                this.move();
+                this.draw();
+                this.drawHengel(this.ctx)
+                this.drawPortal(this.ctx)
+                this.hengel.move(this.canvas)
+                this.hengel.hengelCollidesWithFish(this.fish, this.player, this.shop._double);
+                this.player.move(this.canvas);
+                if (this.keyBoard.isKeyDown(KeyboardListener.KEY_F11)) {
+                    location.reload()
+                }
+                if (this.keyBoard.isKeyDown(KeyboardListener.KEY_F5)) {
+                    window.location.href = 'https://lucvanwesten2003.github.io/ICTHuts/';
+                }
             }
         }
         requestAnimationFrame(this.loop);
     };
+
+    public updateQuiz(hengel: Hengel, score: number) {
+        this.hengel = hengel;
+        this.hengel._score = score;
+    }
+
+    private delayCount() {
+        this.startCounter = true;
+    }
+
+    public imgRandom() {
+        if (this.hengel._quizChecker == 1) {
+            for (var i = 0; i < 1; i++) {
+                let randomImg = this.quizArray[Math.floor(Math.random() * this.quizArray.length)];
+                this.selectedImg = "./assets/Images/" + randomImg;
+                document.body.style.backgroundImage = "URL(" + this.selectedImg + ")";
+                document.body.style.backgroundSize = 'cover'
+            }
+            this.quizButtons;
+            this.hengel._quizChecker++;
+        }
+    }
+
+    private answerA() {
+        if (this.selectedImg == "./assets/Images/quiz8.png" || this.selectedImg == "./assets/Images/quiz12.png" || this.selectedImg == "./assets/Images/quiz17.png"
+            || this.selectedImg == "./assets/Images/Phishing2.png") {
+            document.body.style.backgroundImage = "url('./assets/Images/CorrectQuestion.png')";
+            console.log("correct")
+            this.delayCount();
+        } else {
+            document.body.style.backgroundImage = "url('./assets/Images/WrongQuestion.png')";
+            if (this.hengel._score >= 5) {
+                this.hengel._score = this.hengel._score - 5;
+            }
+            this.delayCount();
+        }
+    }
+
+    private answerB() {
+        if (this.selectedImg == "./assets/Images/quiz7.png" || this.selectedImg == "./assets/Images/quiz13.png" || this.selectedImg == "./assets/Images/quiz15.png"
+            || this.selectedImg == "./assets/Images/quiz16.png" || this.selectedImg == "./assets/Images/Phishing4.png") {
+            document.body.style.backgroundImage = "url('./assets/Images/CorrectQuestion.png')";
+            console.log("correct")
+            this.delayCount();
+        } else {
+            document.body.style.backgroundImage = "url('./assets/Images/WrongQuestion.png')";
+            if (this.hengel._score >= 5) {
+                this.hengel._score = this.hengel._score - 5;
+            }
+            this.delayCount();
+        }
+    }
+
+    private answerC() {
+        if (this.selectedImg == "./assets/Images/quiz1.png" || this.selectedImg == "./assets/Images/quiz2.png" || this.selectedImg == "./assets/Images/quiz3.png"
+            || this.selectedImg == "./assets/Images/quiz9.png" || this.selectedImg == "./assets/Images/quiz11.png" || this.selectedImg == "./assets/Images/quiz14.png"
+            || this.selectedImg == "./assets/Images/quiz14.png") {
+            document.body.style.backgroundImage = "url('./assets/Images/CorrectQuestion.png')";
+            console.log("correct")
+            this.delayCount();
+        } else {
+            document.body.style.backgroundImage = "url('./assets/Images/WrongQuestion.png')";
+            if (this.hengel._score >= 5) {
+                this.hengel._score = this.hengel._score - 5;
+            }
+            this.delayCount();
+        }
+    }
+
+    private answerD() {
+        if (this.selectedImg == "./assets/Images/quiz4.png" || this.selectedImg == "./assets/Images/quiz5.png" || this.selectedImg == "./assets/Images/quiz6.png"
+            || this.selectedImg == "./assets/Images/quiz10.png" || this.selectedImg == "./assets/Images/Phishing3.png") {
+            document.body.style.backgroundImage = "url('./assets/Images/CorrectQuestion.png')";
+            console.log("correct")
+            this.delayCount();
+        } else {
+            document.body.style.backgroundImage = "url('./assets/Images/WrongQuestion.png')";
+            if (this.hengel._score >= 5) {
+                this.hengel._score = this.hengel._score - 5;
+            }
+            this.delayCount();
+        }
+    }
+
+    private quizButtons = (event: MouseEvent) => {
+        let width = event.clientX / window.innerWidth;
+        let length = event.clientY / window.innerHeight;
+
+        if(this.shop._shop === false) {
+        if (width > 0.13645833333333332 && width < 0.444 && length > 0.5046296296296297 && length < 0.639) {
+            this.answerA();
+        }
+        if (width > 0.5359375 && width < 0.8723958333333334 && length > 0.5037037037037037 && length < 0.6351851851851852) {
+            this.answerB();
+        }
+        if (width > 0.13697916666666668 && width < 0.4734375 && length > 0.6898148148148148 && length < 0.8212962962962963) {
+            this.answerC();
+        }
+        if (width > 0.5354166666666667 && width < 0.8713541666666667 && length > 0.6916666666666667 && length < 0.8203703703703704) {
+            this.answerD();
+        }
+        }
+    }
 
     private makeFish() {
         for (let index = 0; index < 1; index++) {
@@ -86,25 +213,24 @@ class Game {
                 randomFish = ['alive', 'dead', 'dead'];
             }
             if (this.shop._special === true) {
-                randomFish = ['alive', 'dead', 'dead', 'dead', 'special'];
+                randomFish = ['alive', 'alive', 'dead', 'dead', 'dead', 'special'];
             }
 
             const randomElement = randomFish[Math.floor(Math.random() * randomFish.length)];
             if (randomElement === 'alive') {
-                this.rockets.push(new Rocket('aliveFish',
+                this.fish.push(new Fish('aliveFish',
                     Game.randomNumber(0, this.canvas.width - 200),
                     Game.randomNumber(this.player.yPosition + 200, this.canvas.height - 50),
                     Game.randomNumber(2, 5), "aliveFish", "./assets/Images/aliveFish.png"));
-                console.log("alvieFish");
             }
             if (randomElement === 'dead') {
-                this.rockets.push(new Rocket('deadFish',
+                this.fish.push(new Fish('deadFish',
                     Game.randomNumber(0, this.canvas.width - 200),
                     Game.randomNumber(this.player.yPosition + 200, this.canvas.height - 50),
                     Game.randomNumber(2, 5), "deadFish", "./assets/Images/deadFish.png"));
             }
             if (randomElement === 'special') {
-                this.rockets.push(new Rocket('specialFish',
+                this.fish.push(new Fish('specialFish',
                     Game.randomNumber(0, this.canvas.width - 200),
                     Game.randomNumber(this.player.yPosition + 200, this.canvas.height - 50),
                     Game.randomNumber(2, 5), "SpecialFish", "./assets/Images/specialFish.png"));
@@ -116,8 +242,8 @@ class Game {
      * Method to move the rockets
      */
     public move() {
-        this.rockets.forEach((rocket) => {
-            rocket.move()
+        this.fish.forEach((fish) => {
+            fish.move()
         });
     }
 
@@ -128,7 +254,7 @@ class Game {
 */
     public drawHengel(ctx: CanvasRenderingContext2D) {
         ctx.drawImage(this.hengel.image, this.player.xPosition + this.player.image.width - 50, this.hengel.yPosition)
-        ctx.strokeStyle = 'black';
+        ctx.strokeStyle = 'grey';
         ctx.lineWidth = 2;
         ctx.beginPath();
         ctx.moveTo(this.player.xPosition + this.player.image.width, this.player.yPosition + 25)
@@ -158,66 +284,66 @@ class Game {
      */
     public draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        
-        if (this.shop._shop === true){  
-            this.shop._Prompts.forEach((element) => {
-                element.draw(this.ctx)
-            });
-            this.writeTextToCanvas(
-                this.ctx,
-                `You have ${this.hengel._score} fish`,
-                40,
-                this.canvas.width / 2,
-                40,
-            );
-        }
-        if (this.shop._shop === true) {
-            this.shop._Powerups.forEach((element) => {
-                element.draw(this.ctx)
-            });
-        }
 
-        if (this.shop._shop === false && this.level < 3) {
-            this.player.draw(this.ctx);
-
-            this.writeTextToCanvas(
-                this.ctx,
-                `Score: ${this.hengel._score} / ${this.neededPoints}`,
-                40,
-                this.canvas.width / 2,
-                40,
-            );
-
-            // when there are elements in the rocket array
-            if (this.rockets.length != 0) {
-                // clear the canvas
-
-                // draw each rocket
-                this.rockets.forEach((rocket) => {
-                    rocket.draw(this.ctx)
+        if (this.hengel._quizChecker == 0) {
+            if (this.shop._shop === true) {
+                this.shop._Prompts.forEach((element) => {
+                    element.draw(this.ctx)
+                });
+                this.writeTextToCanvas(
+                    this.ctx,
+                    `You have ${this.hengel._score} fish`,
+                    40,
+                    this.canvas.width / 2,
+                    40,
+                );
+            }
+            if (this.shop._shop === true) {
+                this.shop._Powerups.forEach((element) => {
+                    element.draw(this.ctx)
                 });
             }
-        }
+            if (this.shop._shop === false && this.level < 3) {
+                this.player.draw(this.ctx);
 
-        if(this.level === 3 && this.shop._shop === false) {
-            this.player.draw(this.ctx);
+                this.writeTextToCanvas(
+                    this.ctx,
+                    `Score: ${this.hengel._score} / ${this.neededPoints}`,
+                    40,
+                    this.canvas.width / 2,
+                    40,
+                );
 
-            this.writeTextToCanvas(
-                this.ctx,
-                `Score: ${this.hengel._score}`,
-                40,
-                this.canvas.width / 2,
-                40,
-            );
+                // when there are elements in the rocket array
+                if (this.fish.length != 0) {
+                    // clear the canvas
 
-            // when there are elements in the rocket array
-            if (this.rockets.length != 0) {
-                // clear the canvas
+                    // draw each rocket
+                    this.fish.forEach((fish) => {
+                        fish.draw(this.ctx)
+                    });
+                }
+            }
+            if (this.level === 3 && this.shop._shop === false) {
+                this.player.draw(this.ctx);
 
-                // draw each rocket
-                this.rockets.forEach((rocket) => {
-                    rocket.draw(this.ctx)
-                });
+                this.writeTextToCanvas(
+                    this.ctx,
+                    `Score: ${this.hengel._score}`,
+                    40,
+                    this.canvas.width / 2,
+                    40,
+                );
+
+                // when there are elements in the rocket array
+                if (this.fish.length != 0) {
+                    // clear the canvas
+
+                    // draw each rocket
+                    this.fish.forEach((fish) => {
+                        fish.draw(this.ctx)
+                    });
+                }
             }
         }
     }
@@ -251,6 +377,7 @@ class Game {
         }
         if (this.player.xPosition >= this.canvas.width - this.endPortal.image.width - this.player.image.width && this.level == 2) {
             this.soundEffect("./assets/Sounds/End_portal.mp3", 0.5, 0.3);
+            this.player.image = GameItem.loadNewImage('./assets/Images/mcboot3.png');
             this.level = 3;
             document.body.style.background = `url("./assets/Images/achtergrond_level_3.png") no-repeat center center fixed`;
             document.body.style.backgroundSize = 'cover'
@@ -271,7 +398,7 @@ class Game {
             this.shop._double = false;
         }
         if (this.shop._special === true) {
-            this.shop._special = false;          
+            this.shop._special = false;
         }
     }
 
@@ -313,5 +440,5 @@ class Game {
      */
     public static randomNumber(min: number, max: number): number {
         return Math.round(Math.random() * (max - min) + min);
-    }
+    } 
 }

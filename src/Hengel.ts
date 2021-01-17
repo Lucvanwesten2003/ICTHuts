@@ -1,6 +1,5 @@
 /// <reference path="./Player.ts" />
 
-
 class Hengel {
     private keyBoard: KeyboardListener;
     private maxY: number;
@@ -8,10 +7,10 @@ class Hengel {
     private speed: number
     private _image: HTMLImageElement;
     private score: number;
-    private catchedFish: Rocket;
+    private catchedFish: Fish;
     private checker: number = 0;
     private player: Player;
-    private game: Game;
+    private quizChecker: number = 0;
     
 
     public constructor(yPos: number, speed: number, image: string) {
@@ -61,23 +60,21 @@ class Hengel {
     }
 
     /**
-* Method to determine of the player is colliding with a rocket
+* Method to determine of the hook is colliding with a fish
 */
-    public hengelCollidesWithFish(rockets: Rocket[], player: Player, double: boolean) {
-        // console.log(this.maxY)
-        rockets.forEach((rocket, index) => {
-            if (rocket.yPosition <= this.maxY) {
-                rockets.splice(index, 1)
+    public hengelCollidesWithFish(fishes: Fish[], player: Player, double: boolean) {
+        fishes.forEach((fish, index) => {
+            if (fish.yPosition <= this.maxY) {
+                fishes.splice(index, 1)
             }
-            if (rocket.xPosition < player.xPosition + player.image.width &&
-                rocket.xPosition + rocket.image.width > player.xPosition + player.image.width &&
-                rocket.yPosition < this._yPosition + this._image.height &&
-                rocket.yPosition + rocket.image.height > this._yPosition) {
+            if (fish.xPosition < player.xPosition + player.image.width &&
+                fish.xPosition + fish.image.width > player.xPosition + player.image.width &&
+                fish.yPosition < this._yPosition + this._image.height &&
+                fish.yPosition + fish.image.height > this._yPosition) {
                 if (this.checker === 0) {
-                    rocket.speed = 0
-                    this.catchedFish = rocket
+                    fish.speed = 0
+                    this.catchedFish = fish
                     this.checker++
-                    console.log("if activated")
                     this.player = player
                 }
             }
@@ -87,11 +84,11 @@ class Hengel {
         }
     }
 
-    private updatePosition(rocket: Rocket, player: Player, double: boolean) {
-        rocket.yPosition = this._yPosition;
-        rocket.xPosition = player.xPosition + player.image.width - 50;
-        console.log(rocket.yPosition)
-        if (rocket.yPosition <= this.maxY && rocket._name == "aliveFish") {
+    private updatePosition(fishes: Fish, player: Player, double: boolean) {
+        fishes.yPosition = this._yPosition;
+        fishes.xPosition = player.xPosition + player.image.width - 50;
+       
+        if (fishes.yPosition <= this.maxY && fishes._name == "aliveFish") {
             if (double === true){
                 this.score++
                 this.score++
@@ -102,11 +99,12 @@ class Hengel {
             this.checker = 0;
             this.soundEffect("./assets/Sounds/good_fish.mp3", 1.2, 0.3);
         }
-        if (rocket.yPosition <= this.maxY && rocket._name == "deadFish") {
+        if (fishes.yPosition <= this.maxY && fishes._name == "deadFish") {
             this.checker = 0;
             this.soundEffect("./assets/Sounds/oof_sound.mp3", 0.5, 0.5);
+            this.quizChecker = 1;
         }
-        if (rocket.yPosition <= this.maxY && rocket._name == "specialFish") {
+        if (fishes.yPosition <= this.maxY && fishes._name == "specialFish") {
             if (double === true){
                 this.score++
                 this.score++
@@ -132,6 +130,14 @@ class Hengel {
 
     set _score(score: number){
         this.score = score;
+    }
+
+    get _quizChecker(): number {
+        return this.quizChecker;
+    }
+
+    set _quizChecker(quizChecker: number) {
+        this.quizChecker = quizChecker;
     }
 
 }
