@@ -33,7 +33,7 @@ class Game {
 
         this.quizArray = [
             "quiz1.png", "quiz2.png", "quiz3.png", "quiz4.png", "quiz5.png", "quiz6.png", "quiz7.png", "quiz8.png", "quiz9.png", "quiz10.png", "quiz11.png", "quiz12.png",
-            "quiz7.png", "quiz13.png", "quiz14.png", "quiz15.png", "quiz16.png", "Phishing1.png", "Phishing2.png", "Phishing3.png", "Phishing4.png" 
+            "quiz7.png", "quiz13.png", "quiz14.png", "quiz15.png", "quiz16.png", "Phishing1.png", "Phishing2.png", "Phishing3.png", "Phishing4.png"
         ];
 
         this.player = new Player('Me',
@@ -66,25 +66,25 @@ class Game {
         this.draw();
         this.shop.updateShop(this.hengel, this.player);
         if (this.shop._shop === false) {
-        if (this.hengel._quizChecker == 1) {
-            this.imgRandom();
-        }
-        if (this.startCounter === true) {
-            this.delayCounter++;
-        }
-        if (this.delayCounter > 200) {
-            this.hengel._quizChecker = 0;
-            this.delayCounter = 0;
-            this.startCounter = false;
-        }
-        if (this.hengel._quizChecker == 0) {
-            this.newLevel();
-            this.score++;
-            this.counter++;
-            if (this.counter === 60) {
-                this.makeFish()
-                this.counter = 0;
+            if (this.hengel._quizChecker == 1) {
+                this.imgRandom();
             }
+            if (this.startCounter === true) {
+                this.delayCounter++;
+            }
+            if (this.delayCounter > 200) {
+                this.hengel._quizChecker = 0;
+                this.delayCounter = 0;
+                this.startCounter = false;
+            }
+            if (this.hengel._quizChecker == 0) {
+                this.newLevel();
+                this.score++;
+                this.counter++;
+                if (this.counter === 60) {
+                    this.makeFish()
+                    this.counter = 0;
+                }
                 this.move();
                 this.draw();
                 this.drawHengel(this.ctx)
@@ -139,7 +139,6 @@ class Game {
             this.delayCount();
         }
     }
-
     private answerB() {
         if (this.selectedImg == "./assets/Images/quiz7.png" || this.selectedImg == "./assets/Images/quiz13.png" || this.selectedImg == "./assets/Images/quiz15.png"
             || this.selectedImg == "./assets/Images/quiz16.png" || this.selectedImg == "./assets/Images/Phishing4.png") {
@@ -154,11 +153,10 @@ class Game {
             this.delayCount();
         }
     }
-
     private answerC() {
         if (this.selectedImg == "./assets/Images/quiz1.png" || this.selectedImg == "./assets/Images/quiz2.png" || this.selectedImg == "./assets/Images/quiz3.png"
             || this.selectedImg == "./assets/Images/quiz9.png" || this.selectedImg == "./assets/Images/quiz11.png" || this.selectedImg == "./assets/Images/quiz14.png"
-            || this.selectedImg == "./assets/Images/quiz14.png") {
+            || this.selectedImg == "./assets/Images/Phishing1.png") {
             document.body.style.backgroundImage = "url('./assets/Images/CorrectQuestion.png')";
             console.log("correct")
             this.delayCount();
@@ -170,7 +168,6 @@ class Game {
             this.delayCount();
         }
     }
-
     private answerD() {
         if (this.selectedImg == "./assets/Images/quiz4.png" || this.selectedImg == "./assets/Images/quiz5.png" || this.selectedImg == "./assets/Images/quiz6.png"
             || this.selectedImg == "./assets/Images/quiz10.png" || this.selectedImg == "./assets/Images/Phishing3.png") {
@@ -190,19 +187,19 @@ class Game {
         let width = event.clientX / window.innerWidth;
         let length = event.clientY / window.innerHeight;
 
-        if(this.shop._shop === false) {
-        if (width > 0.13645833333333332 && width < 0.444 && length > 0.5046296296296297 && length < 0.639) {
-            this.answerA();
-        }
-        if (width > 0.5359375 && width < 0.8723958333333334 && length > 0.5037037037037037 && length < 0.6351851851851852) {
-            this.answerB();
-        }
-        if (width > 0.13697916666666668 && width < 0.4734375 && length > 0.6898148148148148 && length < 0.8212962962962963) {
-            this.answerC();
-        }
-        if (width > 0.5354166666666667 && width < 0.8713541666666667 && length > 0.6916666666666667 && length < 0.8203703703703704) {
-            this.answerD();
-        }
+        if (this.shop._shop === false) {
+            if (width > 0.13645833333333332 && width < 0.444 && length > 0.5046296296296297 && length < 0.639) {
+                this.answerA();
+            }
+            if (width > 0.5359375 && width < 0.8723958333333334 && length > 0.5037037037037037 && length < 0.6351851851851852) {
+                this.answerB();
+            }
+            if (width > 0.13697916666666668 && width < 0.4734375 && length > 0.6898148148148148 && length < 0.8212962962962963) {
+                this.answerC();
+            }
+            if (width > 0.5354166666666667 && width < 0.8713541666666667 && length > 0.6916666666666667 && length < 0.8203703703703704) {
+                this.answerD();
+            }
         }
     }
 
@@ -440,5 +437,5 @@ class Game {
      */
     public static randomNumber(min: number, max: number): number {
         return Math.round(Math.random() * (max - min) + min);
-    } 
+    }
 }

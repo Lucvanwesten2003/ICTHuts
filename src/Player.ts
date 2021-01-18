@@ -1,4 +1,3 @@
-
 class Player extends GameItem {
     private radius: number;
     private keyBoardListener: KeyboardListener;
@@ -58,11 +57,7 @@ class Player extends GameItem {
         });
     }
 
-
     public draw(ctx: CanvasRenderingContext2D) {
         ctx.drawImage(this._image, this._xPosition, this._yPosition)
     }
-
-
-
 }

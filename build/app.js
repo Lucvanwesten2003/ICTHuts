@@ -266,7 +266,7 @@ class Game {
     answerC() {
         if (this.selectedImg == "./assets/Images/quiz1.png" || this.selectedImg == "./assets/Images/quiz2.png" || this.selectedImg == "./assets/Images/quiz3.png"
             || this.selectedImg == "./assets/Images/quiz9.png" || this.selectedImg == "./assets/Images/quiz11.png" || this.selectedImg == "./assets/Images/quiz14.png"
-            || this.selectedImg == "./assets/Images/quiz14.png") {
+            || this.selectedImg == "./assets/Images/Phishing1.png") {
             document.body.style.backgroundImage = "url('./assets/Images/CorrectQuestion.png')";
             console.log("correct");
             this.delayCount();

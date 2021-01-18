@@ -24,14 +24,13 @@ class Fish extends GameItem{
     }
 
     /**
-     * sets the image to the right type so horizontal or vertical
+     * sets the image to the right type so the fish wont fall out of the air
      */
     public fishFactory() {
         if (this.type == "aliveFish") {
             this._xPosition = 0;
         } else {
             this._xPosition = 0;
-            
         }
     }
 
