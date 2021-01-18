@@ -366,8 +366,7 @@ class Game {
             this.soundEffect("./assets/Sounds/Nether_portal.mp3", 0.5, 0.1);
             this.player.image = GameItem.loadNewImage('./assets/Images/mcboot2.png');
             this.level = 2;
-            document.body.style.background = `url("./assets/Images/achtergrond_level_2.png") no-repeat center center fixed`;
-            document.body.style.backgroundSize = 'cover'
+            this.hengel._quizChecker = 1;
             this.player.xPosition = 0;
             this.hengel._score = 0;
             this.resetPowerUps();
@@ -376,8 +375,7 @@ class Game {
             this.soundEffect("./assets/Sounds/End_portal.mp3", 0.5, 0.3);
             this.player.image = GameItem.loadNewImage('./assets/Images/mcboot3.png');
             this.level = 3;
-            document.body.style.background = `url("./assets/Images/achtergrond_level_3.png") no-repeat center center fixed`;
-            document.body.style.backgroundSize = 'cover'
+            this.hengel._quizChecker = 1;
             this.player.xPosition = 0;
             this.hengel._score = 0;
             this.resetPowerUps();
